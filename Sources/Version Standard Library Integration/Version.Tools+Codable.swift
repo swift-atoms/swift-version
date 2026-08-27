@@ -1,16 +1,18 @@
+public import Version
+
 #if !hasFeature(Embedded)
-    extension Version.Semantic: Codable {
+    extension Version.Tools: Codable {
 
         @inlinable
         public init(from decoder: any Decoder) throws {
             let container = try decoder.singleValueContainer()
             let string = try container.decode(Swift.String.self)
             do throws(Self.Error) {
-                self = try Version.Semantic(string)
+                self = try Version.Tools(parsing: string)
             } catch {
                 throw DecodingError.dataCorruptedError(
                     in: container,
-                    debugDescription: "Invalid SemVer 2.0.0 string '\(string)': \(error)"
+                    debugDescription: "Invalid tools-version string '\(string)': \(error)"
                 )
             }
         }

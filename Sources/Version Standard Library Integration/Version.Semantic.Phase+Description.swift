@@ -1,3 +1,5 @@
+public import Version
+
 extension Version.Semantic.Phase: Swift.CustomStringConvertible {
 
     @inlinable

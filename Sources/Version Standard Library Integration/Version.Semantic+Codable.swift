@@ -1,16 +1,18 @@
+public import Version
+
 #if !hasFeature(Embedded)
-    extension Version.Calendar: Codable {
+    extension Version.Semantic: Codable {
 
         @inlinable
         public init(from decoder: any Decoder) throws {
             let container = try decoder.singleValueContainer()
             let string = try container.decode(Swift.String.self)
             do throws(Self.Error) {
-                self = try Version.Calendar(parsing: string)
+                self = try Version.Semantic(string)
             } catch {
                 throw DecodingError.dataCorruptedError(
                     in: container,
-                    debugDescription: "Invalid CalVer string '\(string)': \(error)"
+                    debugDescription: "Invalid SemVer 2.0.0 string '\(string)': \(error)"
                 )
             }
         }

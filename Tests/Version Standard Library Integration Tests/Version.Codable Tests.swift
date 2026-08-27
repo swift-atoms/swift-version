@@ -1,3 +1,4 @@
+import Version_Standard_Library_Integration
 import Foundation
 import Testing
 import Version

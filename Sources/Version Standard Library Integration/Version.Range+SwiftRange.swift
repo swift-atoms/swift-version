@@ -1,3 +1,5 @@
+public import Version
+
 extension Version.Range {
 
     @inlinable
