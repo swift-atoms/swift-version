@@ -1,4 +1,4 @@
-# swift-version-primitives
+# swift-version
 
 ![Development Status](https://img.shields.io/badge/status-active--development-blue.svg)
 
@@ -21,7 +21,7 @@ registry tooling, the Swift Package Index, and SwiftPM consumers.
 ## Quick Start
 
 ```swift
-import Version_Primitives
+import Version
 
 let v = try Version.Semantic("1.2.3-rc.1+build.456")
 
@@ -40,7 +40,7 @@ let b = try Version.Semantic("1.0.0+b")
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swift-primitives/swift-version-primitives.git", branch: "main"),
+    .package(url: "https://github.com/swift-molecules/swift-version.git", branch: "main"),
 ]
 ```
 
@@ -50,7 +50,7 @@ dependencies: [
 .target(
     name: "YourPackage",
     dependencies: [
-        .product(name: "Version Primitives", package: "swift-version-primitives"),
+        .product(name: "Version", package: "swift-version"),
     ]
 )
 ```
@@ -88,7 +88,7 @@ dependencies: [
 | `Version.Semantic.Identifier` | Pre-release identifier — `.numeric(UInt)` or `.alphanumeric(String)`, with §11.4 precedence. |
 | `Version.Semantic.Major` / `.Minor` / `.Patch` (plus `.Value`) | Phantom tag namespaces; the `.Value` typealias is `Tagged<Self, Swift.UInt>`. Components are type-distinct so swaps are caught at compile time. |
 | `Version.Tools.Major` / `.Minor` / `.Patch` (plus `.Value`) | Same pattern for tools-version components. |
-| `Version.Calendar.Micro` (plus `.Value`) | Tagged<Micro, UInt> for the MICRO component. YEAR and MONTH delegate to `Time.Year` and `Time.Month` from `swift-time-primitives` — `Time.Month` is a 1–12 refinement type, so impossible months are rejected at construction. |
+| `Version.Calendar.Micro` (plus `.Value`) | Tagged<Micro, UInt> for the MICRO component. YEAR and MONTH delegate to `Time.Year` and `Time.Month` from `swift-time` — `Time.Month` is a 1–12 refinement type, so impossible months are rejected at construction. |
 
 ### Per-version Parser / Serializer / Error
 
@@ -100,9 +100,9 @@ Each versioning kind ships its own three-piece accessory set:
 | `Tools` | `Version.Tools.Error` | `Version.Tools.Parser` | `Version.Tools.Serializer` |
 | `Calendar` | `Version.Calendar.Error` | `Version.Calendar.Parser` | `Version.Calendar.Serializer` |
 
-Parsers conform to `Parser_Primitives.Parser.Protocol` over `UInt8`
+Parsers conform to `Parser.Parser.Protocol` over `UInt8`
 byte streams; Serializers conform to
-`Serializer_Primitives.Serializer.Protocol`. Errors carry a
+`Serializer.Serializer.Protocol`. Errors carry a
 `range: Text.Range` field locating the offending byte span for
 IDE / tooling consumers.
 
@@ -113,7 +113,7 @@ byte-stream `Serializer` instead.
 
 ## Embedded Swift
 
-Version-primitives' own source follows a source-guard
+Version's own source follows a source-guard
 discipline: every Embedded-incompatible surface
 (`Codable`) is wrapped in `#if !hasFeature(Embedded)`. The package
 imports no Foundation and uses no
@@ -152,15 +152,15 @@ Serializer primitives — never `Foundation.Data`, `Date`, etc.
 
 | Dependency | Use |
 |------------|-----|
-| `swift-ascii-primitives` | `ASCII.Classification` predicates drive identifier character-class checks (`isAlphanumeric`, `isDigit`); `ASCII.Serialization.serializeDecimal` writes MAJOR/MINOR/PATCH bytes. No hand-rolled byte arithmetic. |
-| `swift-ascii-parser-primitives` | `ASCII.Decimal.Parser` consumes each numeric component inside `Version.Semantic.Parser`'s body — leveraging the canonical decimal parser with overflow checking. |
-| `swift-carrier-primitives` | `Version.Semantic` conforms to `Carrier.Protocol` as a trivial self-carrier — `Underlying = Self`. Lets the type participate in `Carrier.Protocol`-bound generic code (registry encoders, hashing pipelines, transport bridges) without wrap/unwrap ceremony. |
-| `swift-parser-primitives` | `Version.Semantic.Parser` conforms to `Parser_Primitives.Parser.Protocol<Input, Version.Semantic, Version.Semantic.Error>` over `UInt8` byte streams. The Parser is the canonical source of SemVer validation — `init(parsing:)` is a thin String adapter that runs it and asserts the input is exhausted. |
-| `swift-serializer-primitives` | `Version.Semantic.Serializer` conforms to `Serializer_Primitives.Serializer.Protocol<Version.Semantic, Buffer, Never>`. Single source of truth for canonical formatting — `description` delegates to this Serializer for Parser/Serializer round-trip symmetry. |
-| `swift-tagged-primitives` | All component `.Value` typealiases (`Semantic.Major.Value`, `Tools.Patch.Value`, `Calendar.Year.Value`, etc.) are `Tagged<_, Swift.UInt>`. The phantom tags give each component a distinct type so positional swaps are caught at compile time — `Version.Semantic(major: 1, minor: 2, patch: 3)` still reads naturally via `ExpressibleByIntegerLiteral`. |
-| `swift-text-primitives` | `Text.Range` powers the `range:` field carried on every `Error` case — byte-offset spans within the parsed input for IDE / tooling consumers. |
-| `swift-ordinal-primitives` | `Ordinal` is the underlying carrier of `Text.Position`; used internally to construct byte-offset positions for error ranges. |
-| `swift-time-primitives` | `Time.Year` and `Time.Month` are the typed YEAR and MONTH components of `Version.Calendar` — `Time.Month`'s 1–12 refinement constraint rejects impossible months at parse time. |
+| `swift-ascii` | `ASCII.Classification` predicates drive identifier character-class checks (`isAlphanumeric`, `isDigit`); `ASCII.Serialization.serializeDecimal` writes MAJOR/MINOR/PATCH bytes. No hand-rolled byte arithmetic. |
+| `swift-ascii-parser` | `ASCII.Decimal.Parser` consumes each numeric component inside `Version.Semantic.Parser`'s body — leveraging the canonical decimal parser with overflow checking. |
+| `swift-carrier` | `Version.Semantic` conforms to `Carrier.Protocol` as a trivial self-carrier — `Underlying = Self`. Lets the type participate in `Carrier.Protocol`-bound generic code (registry encoders, hashing pipelines, transport bridges) without wrap/unwrap ceremony. |
+| `swift-parser` | `Version.Semantic.Parser` conforms to `Parser.Parser.Protocol<Input, Version.Semantic, Version.Semantic.Error>` over `UInt8` byte streams. The Parser is the canonical source of SemVer validation — `init(parsing:)` is a thin String adapter that runs it and asserts the input is exhausted. |
+| `swift-serializer` | `Version.Semantic.Serializer` conforms to `Serializer.Serializer.Protocol<Version.Semantic, Buffer, Never>`. Single source of truth for canonical formatting — `description` delegates to this Serializer for Parser/Serializer round-trip symmetry. |
+| `swift-tagged` | All component `.Value` typealiases (`Semantic.Major.Value`, `Tools.Patch.Value`, `Calendar.Year.Value`, etc.) are `Tagged<_, Swift.UInt>`. The phantom tags give each component a distinct type so positional swaps are caught at compile time — `Version.Semantic(major: 1, minor: 2, patch: 3)` still reads naturally via `ExpressibleByIntegerLiteral`. |
+| `swift-text` | `Text.Range` powers the `range:` field carried on every `Error` case — byte-offset spans within the parsed input for IDE / tooling consumers. |
+| `swift-ordinal` | `Ordinal` is the underlying carrier of `Text.Position`; used internally to construct byte-offset positions for error ranges. |
+| `swift-time` | `Time.Year` and `Time.Month` are the typed YEAR and MONTH components of `Version.Calendar` — `Time.Month`'s 1–12 refinement constraint rejects impossible months at parse time. |
 
 ## Design
 

@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "swift-version-primitives",
+    name: "swift-version",
     platforms: [
         .macOS(.v27),
         .iOS(.v27),
@@ -13,56 +13,56 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "Version Primitives",
-            targets: ["Version Primitives"]
+            name: "Version",
+            targets: ["Version"]
         ),
         .library(
-            name: "Version Primitives Standard Library Integration",
-            targets: ["Version Primitives Standard Library Integration"]
+            name: "Version Standard Library Integration",
+            targets: ["Version Standard Library Integration"]
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/swift-primitives/swift-ascii-primitives.git", branch: "main"),
-        .package(url: "https://github.com/swift-primitives/swift-ascii-parser-primitives.git", branch: "main"),
-        .package(url: "https://github.com/swift-primitives/swift-byte-primitives.git", branch: "main"),
-        .package(url: "https://github.com/swift-primitives/swift-byte-parser-primitives.git", branch: "main"),
-        .package(url: "https://github.com/swift-primitives/swift-carrier-primitives.git", branch: "main"),
-        .package(url: "https://github.com/swift-primitives/swift-ordinal-primitives.git", branch: "main"),
-        .package(url: "https://github.com/swift-primitives/swift-parser-primitives.git", branch: "main"),
-        .package(url: "https://github.com/swift-primitives/swift-serializer-primitives.git", branch: "main"),
-        .package(url: "https://github.com/swift-primitives/swift-tagged-primitives.git", branch: "main"),
-        .package(url: "https://github.com/swift-primitives/swift-text-primitives.git", branch: "main"),
-        .package(url: "https://github.com/swift-primitives/swift-time-primitives.git", branch: "main"),
+        .package(url: "https://github.com/swift-molecules/swift-ascii.git", branch: "main"),
+        .package(url: "https://github.com/swift-molecules/swift-ascii-parser.git", branch: "main"),
+        .package(url: "https://github.com/swift-molecules/swift-byte.git", branch: "main"),
+        .package(url: "https://github.com/swift-molecules/swift-byte-parser.git", branch: "main"),
+        .package(url: "https://github.com/swift-molecules/swift-carrier.git", branch: "main"),
+        .package(url: "https://github.com/swift-molecules/swift-ordinal.git", branch: "main"),
+        .package(url: "https://github.com/swift-molecules/swift-parser.git", branch: "main"),
+        .package(url: "https://github.com/swift-molecules/swift-serializer.git", branch: "main"),
+        .package(url: "https://github.com/swift-molecules/swift-tagged.git", branch: "main"),
+        .package(url: "https://github.com/swift-molecules/swift-text.git", branch: "main"),
+        .package(url: "https://github.com/swift-molecules/swift-time.git", branch: "main"),
     ],
     targets: [
         .target(
-            name: "Version Primitives",
+            name: "Version",
             dependencies: [
-                .product(name: "ASCII Primitives", package: "swift-ascii-primitives"),
-                .product(name: "ASCII Decimal Parser Primitives", package: "swift-ascii-parser-primitives"),
-                .product(name: "Byte Primitives Standard Library Integration", package: "swift-byte-primitives"),
-                .product(name: "Byte Parser Primitives", package: "swift-byte-parser-primitives"),
-                .product(name: "Carrier Primitives", package: "swift-carrier-primitives"),
-                .product(name: "Ordinal Primitives", package: "swift-ordinal-primitives"),
-                .product(name: "Parser Primitives", package: "swift-parser-primitives"),
-                .product(name: "Serializer Primitives", package: "swift-serializer-primitives"),
-                .product(name: "Tagged Primitives", package: "swift-tagged-primitives"),
-                .product(name: "Text Primitives", package: "swift-text-primitives"),
-                .product(name: "Time Primitives", package: "swift-time-primitives"),
+                .product(name: "ASCII", package: "swift-ascii"),
+                .product(name: "ASCII Decimal Parser", package: "swift-ascii-parser"),
+                .product(name: "Byte Standard Library Integration", package: "swift-byte"),
+                .product(name: "Byte Parser", package: "swift-byte-parser"),
+                .product(name: "Carrier", package: "swift-carrier"),
+                .product(name: "Ordinal", package: "swift-ordinal"),
+                .product(name: "Parser", package: "swift-parser"),
+                .product(name: "Serializer", package: "swift-serializer"),
+                .product(name: "Tagged", package: "swift-tagged"),
+                .product(name: "Text", package: "swift-text"),
+                .product(name: "Time", package: "swift-time"),
             ]
         ),
         .target(
-            name: "Version Primitives Standard Library Integration",
+            name: "Version Standard Library Integration",
             dependencies: [
-                "Version Primitives",
+                "Version",
             ]
         ),
         .testTarget(
-            name: "Version Primitives Tests",
+            name: "Version Tests",
             dependencies: [
-                "Version Primitives",
+                "Version",
             ],
-            path: "Tests/Version Primitives Tests"
+            path: "Tests/Version Tests"
         ),
     ],
     swiftLanguageModes: [.v6]
