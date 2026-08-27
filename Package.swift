@@ -38,7 +38,8 @@ let package = Package(
         .target(
             name: "Version Standard Library Integration",
             dependencies: [
-                "Version"
+                "Version",
+                .product(name: "Tagged Standard Library Integration", package: "swift-tagged"),
             ]
         ),
         .target(
@@ -51,7 +52,8 @@ let package = Package(
         .testTarget(
             name: "Version Tests",
             dependencies: [
-                "Version"
+                "Version",
+                .product(name: "Tagged", package: "swift-tagged"),
             ]
         ),
         .testTarget(
@@ -59,6 +61,8 @@ let package = Package(
             dependencies: [
                 "Version",
                 "Version Standard Library Integration",
+                .product(name: "Tagged", package: "swift-tagged"),
+                .product(name: "Tagged Standard Library Integration", package: "swift-tagged"),
             ]
         ),
     ],

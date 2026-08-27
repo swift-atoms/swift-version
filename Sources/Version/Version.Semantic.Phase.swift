@@ -1,3 +1,5 @@
+public import Tagged
+
 extension Version.Semantic {
 
     public enum Phase: Swift.Sendable, Swift.Hashable {

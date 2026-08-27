@@ -20,6 +20,20 @@ extension Version {
             self.minor = minor
             self.patch = patch
         }
+
+        @_disfavoredOverload
+        @inlinable
+        public init(
+            major: Swift.UInt,
+            minor: Swift.UInt,
+            patch: Swift.UInt? = nil
+        ) {
+            self.init(
+                major: .init(_unchecked: major),
+                minor: .init(_unchecked: minor),
+                patch: patch.map { .init(_unchecked: $0) }
+            )
+        }
     }
 }
 

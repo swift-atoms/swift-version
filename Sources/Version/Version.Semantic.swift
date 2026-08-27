@@ -27,6 +27,24 @@ extension Version {
             self.preReleaseIdentifiers = preReleaseIdentifiers
             self.buildMetadataIdentifiers = buildMetadataIdentifiers
         }
+
+        @_disfavoredOverload
+        @inlinable
+        public init(
+            major: Swift.UInt,
+            minor: Swift.UInt,
+            patch: Swift.UInt,
+            preReleaseIdentifiers: [Identifier] = [],
+            buildMetadataIdentifiers: [Swift.String] = []
+        ) {
+            self.init(
+                major: .init(_unchecked: major),
+                minor: .init(_unchecked: minor),
+                patch: .init(_unchecked: patch),
+                preReleaseIdentifiers: preReleaseIdentifiers,
+                buildMetadataIdentifiers: buildMetadataIdentifiers
+            )
+        }
     }
 }
 

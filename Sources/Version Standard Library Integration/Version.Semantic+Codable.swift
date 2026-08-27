@@ -8,7 +8,7 @@ public import Version
             let container = try decoder.singleValueContainer()
             let string = try container.decode(Swift.String.self)
             do throws(Self.Error) {
-                self = try Version.Semantic(string)
+                self = try Version.Semantic(parsing: string)
             } catch {
                 throw DecodingError.dataCorruptedError(
                     in: container,
