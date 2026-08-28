@@ -1,5 +1,3 @@
-public import Tagged
-
 extension Version.Semantic {
 
     public struct Bumped: Swift.Sendable {
@@ -23,9 +21,9 @@ extension Version.Semantic.Bumped {
     @inlinable
     public var major: Version.Semantic {
         Version.Semantic(
-            major: .init(_unchecked: self.base.major.underlying + 1),
-            minor: .init(_unchecked: 0),
-            patch: .init(_unchecked: 0)
+            major: .init(self.base.major.underlying + 1),
+            minor: 0,
+            patch: 0
         )
     }
 
@@ -33,8 +31,8 @@ extension Version.Semantic.Bumped {
     public var minor: Version.Semantic {
         Version.Semantic(
             major: self.base.major,
-            minor: .init(_unchecked: self.base.minor.underlying + 1),
-            patch: .init(_unchecked: 0)
+            minor: .init(self.base.minor.underlying + 1),
+            patch: 0
         )
     }
 
@@ -43,7 +41,7 @@ extension Version.Semantic.Bumped {
         Version.Semantic(
             major: self.base.major,
             minor: self.base.minor,
-            patch: .init(_unchecked: self.base.patch.underlying + 1)
+            patch: .init(self.base.patch.underlying + 1)
         )
     }
 }

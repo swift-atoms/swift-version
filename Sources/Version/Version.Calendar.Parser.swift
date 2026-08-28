@@ -1,0 +1,166 @@
+public import ASCII_Decimal_Parser
+public import ASCII
+internal import Byte_Parser
+internal import Byte
+internal import Byte_Standard_Library_Integration
+internal import Collection
+internal import Ordinal
+public import Parser
+public import Text
+internal import Time
+
+extension Version.Calendar {
+
+    public struct Parser<Input: Collection.Slice.`Protocol`>: Swift.Sendable
+    where Input: Swift.Sendable, Input.Element == Byte {
+
+        @inlinable
+        public init() {}
+    }
+}
+
+extension Version.Calendar.Parser: Parser.Parser.`Protocol` {
+
+    public typealias Output = Version.Calendar
+
+    public typealias Failure = Version.Calendar.Error
+
+    public func parse(_ input: inout Input) throws(Version.Calendar.Error) -> Version.Calendar {
+        let originalSlice = input[input.startIndex..<Self.findCalendarEnd(in: input)]
+        let originalString = Swift.String(decoding: originalSlice, as: Swift.UTF8.self)
+        var offset: Index<Byte> = .zero
+
+        let yearValue = try Self.parseNumber(&input, offset: &offset, in: originalString)
+        let year = Time.Year(Swift.Int(yearValue))
+
+        var monthPair: (Time.Month, Swift.UInt)?
+        var micro: Swift.UInt?
+
+        if input.first == 0x2E {
+            input = input[input.index(after: input.startIndex)...]
+            offset += .one
+            let monthStart = offset
+            let monthValue = try Self.parseNumber(&input, offset: &offset, in: originalString)
+            let timeMonth: Time.Month
+            do throws(Time.Month.Error) {
+                timeMonth = try Time.Month(Swift.Int(monthValue))
+            } catch {
+                throw .invalidMonth(
+                    input: originalString,
+                    value: Swift.Int(monthValue),
+                    range: Self.range(from: monthStart, to: offset)
+                )
+            }
+            monthPair = (timeMonth, monthValue)
+            if input.first == 0x2E {
+                input = input[input.index(after: input.startIndex)...]
+                offset += .one
+                micro = try Self.parseNumber(&input, offset: &offset, in: originalString)
+            }
+        }
+
+        var modifier: Swift.String?
+        if input.first == 0x2D {
+            input = input[input.index(after: input.startIndex)...]
+            offset += .one
+            modifier = try Self.parseModifier(&input, offset: &offset, original: originalString)
+        }
+
+        switch (monthPair, micro) {
+        case (nil, _):
+            return .yearOnly(year: year, modifier: modifier)
+
+        case (let pair?, nil):
+            return .yearMonth(year: year, month: pair.0, modifier: modifier)
+
+        case (let pair?, let u?):
+            return .full(year: year, month: pair.0, micro: .init(u), modifier: modifier)
+        }
+    }
+
+    @usableFromInline
+    static func findCalendarEnd(in input: Input) -> Input.Index {
+        var i = input.startIndex
+        while i < input.endIndex, Self.isCalendarByte(input[i]) {
+            i = input.index(after: i)
+        }
+        return i
+    }
+
+    @inlinable
+    package static func isCalendarByte(_ byte: Byte) -> Swift.Bool {
+        ASCII.Classification.isAlphanumeric(byte.underlying) || byte == 0x2E || byte == 0x2D
+    }
+
+    @inlinable
+    package static func range(from start: Index<Byte>, to end: Index<Byte>) -> Text.Range {
+        Text.Range(start: start.retag(Text.self), end: end.retag(Text.self))
+    }
+
+    @usableFromInline
+    static func parseNumber(
+        _ input: inout Input,
+        offset: inout Index<Byte>,
+        in originalString: Swift.String
+    ) throws(Version.Calendar.Error) -> Swift.UInt {
+        let startOffset = offset
+        guard let firstByte = input.first, ASCII.Classification.isDigit(firstByte.underlying) else {
+            throw .invalidCalendarIdentifier(
+                input: originalString,
+                identifier: "",
+                range: Self.range(from: startOffset, to: startOffset)
+            )
+        }
+        _ = firstByte
+        let countBefore = input.count
+        let value: Swift.UInt
+        do throws(ASCII.Decimal.Error) {
+            value = try ASCII.Decimal.Parser<Input, Swift.UInt>().parse(&input)
+        } catch {
+            throw .invalidCalendarIdentifier(
+                input: originalString,
+                identifier: "",
+                range: Self.range(from: startOffset, to: startOffset)
+            )
+        }
+        offset += countBefore.subtract.saturating(input.count)
+        return value
+    }
+
+    @usableFromInline
+    static func parseModifier(
+        _ input: inout Input,
+        offset: inout Index<Byte>,
+        original originalString: Swift.String
+    ) throws(Version.Calendar.Error) -> Swift.String {
+        let startOffset = offset
+        let startIndex = input.startIndex
+        var i = startIndex
+        while i < input.endIndex, Self.isModifierByte(input[i]) {
+            i = input.index(after: i)
+        }
+        let slice = input[startIndex..<i]
+        input = input[i...]
+        offset += slice.count
+        if slice.isEmpty {
+            throw .emptyModifier(
+                input: originalString,
+                range: Self.range(from: startOffset, to: startOffset)
+            )
+        }
+        let text = Swift.String(decoding: slice, as: Swift.UTF8.self)
+        if !slice.allSatisfy({ Self.isModifierByte($0) }) {
+            throw .invalidModifierCharacters(
+                input: originalString,
+                modifier: text,
+                range: Self.range(from: startOffset, to: offset)
+            )
+        }
+        return text
+    }
+
+    @inlinable
+    package static func isModifierByte(_ byte: Byte) -> Swift.Bool {
+        ASCII.Classification.isAlphanumeric(byte.underlying) || byte == 0x2D
+    }
+}

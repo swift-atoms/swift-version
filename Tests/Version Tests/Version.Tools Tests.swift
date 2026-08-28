@@ -1,8 +1,5 @@
-import Tagged
-import Tagged_Standard_Library_Integration
 import Testing
 import Version
-import Version_Standard_Library_Integration
 
 extension Version.Tools {
     @Suite struct Test {

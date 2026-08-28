@@ -1,5 +1,3 @@
-import Version_Standard_Library_Integration
-import Tagged_Standard_Library_Integration
 import Testing
 import Version
 
@@ -30,6 +28,7 @@ struct VersionDescriptionTests {
     @Suite struct Range {}
     @Suite struct Set {}
     @Suite struct Phase {}
+    @Suite struct Calendar {}
 }
 
 extension VersionDescriptionTests.Range {
@@ -148,5 +147,41 @@ extension VersionDescriptionTests.Phase {
     func `Stable prints simple name`() {
         #expect(Version.Semantic.Phase.stable.description == "stable")
         #expect(Version.Semantic.Phase.stable.debugDescription == ".stable")
+    }
+}
+
+extension VersionDescriptionTests.Calendar {
+    @Test
+    func `Year-only debug retains case label`() throws(Version.Calendar.Error) {
+        let v = try Version.Calendar(parsing: "2026")
+        #expect(v.debugDescription == ".yearOnly(year: 2026, modifier: nil)")
+    }
+
+    @Test
+    func `Year-month debug retains case label`() throws(Version.Calendar.Error) {
+        let v = try Version.Calendar(parsing: "2026.05")
+        #expect(v.debugDescription == ".yearMonth(year: 2026, month: 5, modifier: nil)")
+    }
+
+    @Test
+    func `Full debug retains case label`() throws(Version.Calendar.Error) {
+        let v = try Version.Calendar(parsing: "2026.05.13")
+        #expect(v.debugDescription == ".full(year: 2026, month: 5, micro: 13, modifier: nil)")
+    }
+
+    @Test
+    func `Modifier round-trips through debug as quoted string`() throws(Version.Calendar.Error) {
+        let v = try Version.Calendar(parsing: "2026.05.13-rc1")
+        #expect(v.debugDescription == ".full(year: 2026, month: 5, micro: 13, modifier: \"rc1\")")
+    }
+
+    @Test
+    func `Debug distinguishes scheme identity that description erases`() throws(Version.Calendar
+        .Error)
+    {
+
+        let yearMonth = try Version.Calendar(parsing: "2026.05")
+        let full = try Version.Calendar(parsing: "2026.05.0")
+        #expect(yearMonth.debugDescription != full.debugDescription)
     }
 }

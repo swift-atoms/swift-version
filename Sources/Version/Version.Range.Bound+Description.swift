@@ -1,5 +1,3 @@
-public import Version
-
 extension Version.Range.Bound: Swift.CustomStringConvertible
 where Underlying: Swift.CustomStringConvertible {
 

@@ -1,5 +1,3 @@
-public import Version
-
 extension Version.Set: Swift.CustomStringConvertible
 where Underlying: Swift.CustomStringConvertible {
 

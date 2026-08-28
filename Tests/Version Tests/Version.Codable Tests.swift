@@ -1,4 +1,3 @@
-import Version_Standard_Library_Integration
 import Foundation
 import Testing
 import Version
@@ -7,7 +6,7 @@ import Version
 struct VersionCodableTests {
     @Test
     func `Semantic round-trips through JSON`() throws {
-        let original = try Version.Semantic(parsing: "1.2.3-rc.1+build.456")
+        let original = try Version.Semantic("1.2.3-rc.1+build.456")
         let data = try JSONEncoder().encode(original)
         let decoded = try JSONDecoder().decode(Version.Semantic.self, from: data)
         #expect(decoded == original)
@@ -23,8 +22,16 @@ struct VersionCodableTests {
     }
 
     @Test
+    func `Calendar round-trips through JSON preserving scheme`() throws {
+        let original = try Version.Calendar(parsing: "2026.05.13-rc1")
+        let data = try JSONEncoder().encode(original)
+        let decoded = try JSONDecoder().decode(Version.Calendar.self, from: data)
+        #expect(decoded == original)
+    }
+
+    @Test
     func `Semantic encodes as a single string value`() throws {
-        let v = try Version.Semantic(parsing: "1.0.0")
+        let v = try Version.Semantic("1.0.0")
         let data = try JSONEncoder().encode(v)
         let string = String(decoding: data, as: UTF8.self)
         #expect(string == "\"1.0.0\"")

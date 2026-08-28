@@ -1,4 +1,3 @@
-import Tagged
 import Testing
 import Version
 
@@ -32,18 +31,12 @@ extension Version.Semantic.Bumped {
         }
 
         @Test
-        func `Bumping drops pre-release and build metadata`() {
-            let v = Version.Semantic(
-                major: 1,
-                minor: 2,
-                patch: 3,
-                preReleaseIdentifiers: [.alphanumeric("rc"), .numeric(1)],
-                buildMetadataIdentifiers: ["build", "42"]
-            )
+        func `Bumping drops pre-release and build metadata`() throws(Version.Semantic.Error) {
+            let v = try Version.Semantic("1.2.3-rc.1+build.42")
             let bumped = v.bumped.patch
             #expect(bumped.preReleaseIdentifiers.isEmpty)
             #expect(bumped.buildMetadataIdentifiers.isEmpty)
-            #expect(bumped.patch.underlying == 4)
+            #expect(bumped.description == "1.2.4")
         }
 
         @Test
