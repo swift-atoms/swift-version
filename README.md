@@ -40,7 +40,7 @@ let b = try Version.Semantic("1.0.0+b")
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swift-molecules/swift-version.git", branch: "main"),
+    .package(url: "https://github.com/swift-atoms/swift-version.git", branch: "main"),
 ]
 ```
 
@@ -113,7 +113,7 @@ byte-stream `Serializer` instead.
 
 ## Embedded Swift
 
-Version's own source follows a source-guard
+Version' own source follows a source-guard
 discipline: every Embedded-incompatible surface
 (`Codable`) is wrapped in `#if !hasFeature(Embedded)`. The package
 imports no Foundation and uses no
@@ -164,7 +164,7 @@ Serializer primitives — never `Foundation.Data`, `Date`, etc.
 
 ## Design
 
-- Research: `swift-institute/Research/2026-05-12-swift-package-and-version-primitives-design.md` v1.0.0 RECOMMENDATION
+- Research: `swift-institute/Research/2026-05-12-swift-package-and-version-design.md` v1.0.0 RECOMMENDATION
 - Framework: `swift-institute/Research/2026-05-12-typed-identifier-naming-framework.md` v1.0.0 RECOMMENDATION
 
 ## License

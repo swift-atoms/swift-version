@@ -1,13 +1,9 @@
-public import Byte_Parser
-internal import Byte_Standard_Library_Integration
-internal import Parser
 public import Tagged
-public import Text
 
 extension Version {
 
     public struct Tools: Swift.Sendable, Swift.Hashable, Swift.Comparable, Swift
-            .CustomStringConvertible, Swift.LosslessStringConvertible
+            .CustomStringConvertible
     {
 
         public let major: Major.Value
@@ -27,47 +23,17 @@ extension Version {
             self.patch = patch
         }
 
-        public init(parsing toolsString: Swift.String) throws(Version.Tools.Error) {
-            let totalBytes = Swift.UInt(toolsString.utf8.count)
-            for (offset, byte) in toolsString.utf8.enumerated() where byte >= 0x80 {
-                let position = Self.position(Swift.UInt(offset))
-                throw .nonASCIICharacters(
-                    input: toolsString,
-                    range: Text.Range(start: position, end: Self.position(Swift.UInt(offset) + 1))
-                )
-            }
-            var input = Byte.Input(utf8: toolsString)
-            self = try Version.Tools.Parser().parse(&input)
-            if !input.isEmpty {
-                let remaining = Swift.UInt(input.count)
-                let consumed = totalBytes - remaining
-                throw .invalidToolsVersionIdentifierCount(
-                    input: toolsString,
-                    range: Text.Range(
-                        start: Self.position(consumed),
-                        end: Self.position(totalBytes)
-                    )
-                )
-            }
-        }
-
-        @inlinable
-        public init?(_ description: Swift.String) {
-            do throws(Version.Tools.Error) {
-                self = try .init(parsing: description)
-            } catch {
-                return nil
-            }
-        }
     }
 }
 
 extension Version.Tools {
 
     public var description: Swift.String {
-        var buffer: [Byte] = []
-        Version.Tools.Serializer<[Byte]>().serialize(self, into: &buffer)
-        return Swift.String(decoding: buffer, as: Swift.UTF8.self)
+        var value = "\(major.underlying).\(minor.underlying)"
+        if let patch {
+            value += ".\(patch.underlying)"
+        }
+        return value
     }
 
     @inlinable
@@ -79,8 +45,4 @@ extension Version.Tools {
         return lp < rp
     }
 
-    @inlinable
-    package static func position(_ offset: Swift.UInt) -> Text.Position {
-        Text.Position(_unchecked: Ordinal(offset))
-    }
 }

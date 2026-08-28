@@ -1,15 +1,10 @@
-public import Byte_Parser
-internal import Byte_Standard_Library_Integration
-internal import Ordinal
-internal import Parser
 public import Tagged
-public import Text
 public import Time
 
 extension Version {
 
     public enum Calendar: Swift.Sendable, Swift.Hashable, Swift.Comparable, Swift
-            .CustomStringConvertible, Swift.LosslessStringConvertible
+            .CustomStringConvertible
     {
 
         case yearOnly(year: Time.Year, modifier: Swift.String? = nil)
@@ -23,49 +18,29 @@ extension Version {
             modifier: Swift.String? = nil
         )
 
-        public init(parsing calverString: Swift.String) throws(Version.Calendar.Error) {
-            let totalBytes = Swift.UInt(calverString.utf8.count)
-            for (offset, byte) in calverString.utf8.enumerated() where byte >= 0x80 {
-                let position = Self.position(Swift.UInt(offset))
-                throw .nonASCIICharacters(
-                    input: calverString,
-                    range: Text.Range(start: position, end: Self.position(Swift.UInt(offset) + 1))
-                )
-            }
-            var input = Byte.Input(utf8: calverString)
-            self = try Version.Calendar.Parser().parse(&input)
-            if !input.isEmpty {
-                let remaining = Swift.UInt(input.count)
-                let consumed = totalBytes - remaining
-                let trailing = Swift.String(decoding: input, as: Swift.UTF8.self)
-                throw .invalidCalendarIdentifier(
-                    input: calverString,
-                    identifier: trailing,
-                    range: Text.Range(
-                        start: Self.position(consumed),
-                        end: Self.position(totalBytes)
-                    )
-                )
-            }
-        }
-
-        @inlinable
-        public init?(_ description: Swift.String) {
-            do throws(Version.Calendar.Error) {
-                self = try .init(parsing: description)
-            } catch {
-                return nil
-            }
-        }
     }
 }
 
 extension Version.Calendar {
 
     public var description: Swift.String {
-        var buffer: [Byte] = []
-        Version.Calendar.Serializer<[Byte]>().serialize(self, into: &buffer)
-        return Swift.String(decoding: buffer, as: Swift.UTF8.self)
+        func padded(_ value: Swift.UInt) -> Swift.String {
+            value < 10 ? "0\(value)" : Swift.String(value)
+        }
+        func suffixed(_ value: Swift.String, _ modifier: Swift.String?) -> Swift.String {
+            modifier.map { value + "-" + $0 } ?? value
+        }
+        switch self {
+        case .yearOnly(let year, let modifier):
+            return suffixed(Swift.String(year.rawValue), modifier)
+        case .yearMonth(let year, let month, let modifier):
+            return suffixed("\(year.rawValue).\(padded(Swift.UInt(month.rawValue)))", modifier)
+        case .full(let year, let month, let micro, let modifier):
+            return suffixed(
+                "\(year.rawValue).\(padded(Swift.UInt(month.rawValue))).\(padded(micro.underlying))",
+                modifier
+            )
+        }
     }
 
     public static func < (lhs: Self, rhs: Self) -> Swift.Bool {
@@ -98,8 +73,4 @@ extension Version.Calendar {
         }
     }
 
-    @inlinable
-    package static func position(_ offset: Swift.UInt) -> Text.Position {
-        Text.Position(_unchecked: Ordinal(offset))
-    }
 }

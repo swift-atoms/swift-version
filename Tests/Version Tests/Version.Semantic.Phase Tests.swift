@@ -16,8 +16,13 @@ extension Version.Semantic.Phase {
         }
 
         @Test
-        func `Pre-release zero-major stays initial`() throws(Version.Semantic.Error) {
-            let v = try Version.Semantic("0.9.0-rc.1")
+        func `Pre-release zero-major stays initial`() {
+            let v = Version.Semantic(
+                major: 0,
+                minor: 9,
+                patch: 0,
+                preReleaseIdentifiers: [.alphanumeric("rc"), .numeric(1)]
+            )
             #expect(v.phase == .initial)
         }
 

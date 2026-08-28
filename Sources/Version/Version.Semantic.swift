@@ -1,9 +1,4 @@
-public import Byte_Parser
-internal import Byte_Standard_Library_Integration
-internal import Ordinal
-internal import Parser
 public import Tagged
-public import Text
 
 extension Version {
 
@@ -35,68 +30,24 @@ extension Version {
             self.buildMetadataIdentifiers = buildMetadataIdentifiers
         }
 
-        public init(parsing versionString: Swift.String) throws(Version.Semantic.Error) {
-            let totalBytes = Swift.UInt(versionString.utf8.count)
-            var firstNonASCII: Swift.UInt?
-            for (offset, byte) in versionString.utf8.enumerated() where byte >= 0x80 {
-                firstNonASCII = Swift.UInt(offset)
-                break
-            }
-            if let firstNonASCII {
-                throw .nonASCIICharacters(
-                    input: versionString,
-                    range: Text.Range(
-                        start: Self.position(firstNonASCII),
-                        end: Self.position(firstNonASCII + 1)
-                    )
-                )
-            }
-            var input = Byte.Input(utf8: versionString)
-            self = try Version.Semantic.Parser().parse(&input)
-            if !input.isEmpty {
-                let remaining = Swift.UInt(input.count)
-                let consumed = totalBytes - remaining
-                let trailing = Swift.String(decoding: input, as: Swift.UTF8.self)
-                let trailingRange = Text.Range(
-                    start: Self.position(consumed),
-                    end: Self.position(totalBytes)
-                )
-                if input.first == 0x2E {
-                    throw .invalidVersionCoreIdentifierCount(
-                        input: versionString,
-                        found: Self.countDots(in: versionString) + 1,
-                        range: trailingRange
-                    )
-                }
-                throw .invalidVersionCoreIdentifier(
-                    input: versionString,
-                    identifier: trailing,
-                    range: trailingRange
-                )
-            }
-        }
-
     }
 }
 
 extension Version.Semantic {
-    @inlinable
-    package static func position(_ offset: Swift.UInt) -> Text.Position {
-        Text.Position(_unchecked: Ordinal(offset))
-    }
-
-    private static func countDots(in s: Swift.String) -> Swift.Int {
-        var count = 0
-        for byte in s.utf8 where byte == 0x2E {
-            count += 1
-        }
-        return count
-    }
-
     public var description: Swift.String {
-        var buffer: [Byte] = []
-        Version.Semantic.Serializer<[Byte]>().serialize(self, into: &buffer)
-        return Swift.String(decoding: buffer, as: Swift.UTF8.self)
+        var value = "\(major.underlying).\(minor.underlying).\(patch.underlying)"
+        if !preReleaseIdentifiers.isEmpty {
+            value += "-" + preReleaseIdentifiers.map { identifier in
+                switch identifier {
+                case .numeric(let number): return Swift.String(number)
+                case .alphanumeric(let text): return text
+                }
+            }.joined(separator: ".")
+        }
+        if !buildMetadataIdentifiers.isEmpty {
+            value += "+" + buildMetadataIdentifiers.joined(separator: ".")
+        }
+        return value
     }
 
     public static func == (lhs: Self, rhs: Self) -> Bool {
