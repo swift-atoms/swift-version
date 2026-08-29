@@ -1,6 +1,10 @@
 import Testing
 import Version
 
+extension Version.Tools {
+    @Suite struct Test {}
+}
+
 extension Version.Tools.Test {
     @Suite struct Tagged {
         @Test
