@@ -1,6 +1,10 @@
 import Testing
 import Version
 
+extension Version.Semantic {
+    @Suite struct Test {}
+}
+
 extension Version.Semantic.Test {
     @Suite struct Tagged {
         @Test
