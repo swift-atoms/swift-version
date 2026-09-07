@@ -13,8 +13,8 @@ let package = Package(
     ],
     products: [
         .library(name: "Version", targets: ["Version"]),
-        .library(name: "Version Standard Library Integration", targets: ["Version Standard Library Integration"]),
-        .library(name: "Version Foundation Library Integration", targets: ["Version Foundation Library Integration"]),
+
+        .library(name: "Version Foundation Integration", targets: ["Version Foundation Integration"]),
         .library(name: "Version Test Support", targets: ["Version Test Support"]),
     ],
     dependencies: [
@@ -25,24 +25,16 @@ let package = Package(
             name: "Version",
             dependencies: [
                 .product(name: "Tagged", package: "swift-tagged"),
-                .product(name: "Tagged Standard Library Integration", package: "swift-tagged"),
             ],
             path: "Sources/Version"
         ),
+        
         .target(
-            name: "Version Standard Library Integration",
+            name: "Version Foundation Integration",
             dependencies: [
                 .target(name: "Version"),
             ],
-            path: "Sources/Version Standard Library Integration"
-        ),
-        .target(
-            name: "Version Foundation Library Integration",
-            dependencies: [
-                .target(name: "Version"),
-                .target(name: "Version Standard Library Integration"),
-            ],
-            path: "Sources/Version Foundation Library Integration"
+            path: "Sources/Version Foundation Integration"
         ),
         .target(
             name: "Version Test Support",
@@ -56,8 +48,7 @@ let package = Package(
             dependencies: [
                 .target(name: "Version"),
                 .target(name: "Version Test Support"),
-                .target(name: "Version Standard Library Integration"),
-                .target(name: "Version Foundation Library Integration"),
+                .target(name: "Version Foundation Integration"),
             ],
             path: "Tests/Version Tests"
         ),
