@@ -19,7 +19,6 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/swift-atoms/swift-tagged.git", branch: "main"),
-        .package(url: "https://github.com/swift-atoms/swift-time.git", branch: "main"),
     ],
     targets: [
         .target(
@@ -30,14 +29,12 @@ let package = Package(
                     name: "Tagged Standard Library Integration",
                     package: "swift-tagged"
                 ),
-                .product(name: "Time", package: "swift-time"),
             ]
         ),
         .testTarget(
             name: "Version Tests",
             dependencies: [
                 .target(name: "Version"),
-                .product(name: "Time", package: "swift-time"),
             ],
             path: "Tests/Version Tests"
         ),
