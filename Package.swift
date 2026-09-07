@@ -12,10 +12,10 @@ let package = Package(
         .visionOS(.v27),
     ],
     products: [
-        .library(
-            name: "Version",
-            targets: ["Version"]
-        ),
+        .library(name: "Version", targets: ["Version"]),
+        .library(name: "Version Standard Library Integration", targets: ["Version Standard Library Integration"]),
+        .library(name: "Version Foundation Library Integration", targets: ["Version Foundation Library Integration"]),
+        .library(name: "Version Test Support", targets: ["Version Test Support"]),
     ],
     dependencies: [
         .package(url: "https://github.com/swift-atoms/swift-tagged.git", branch: "main"),
@@ -25,16 +25,39 @@ let package = Package(
             name: "Version",
             dependencies: [
                 .product(name: "Tagged", package: "swift-tagged"),
-                .product(
-                    name: "Tagged Standard Library Integration",
-                    package: "swift-tagged"
-                ),
-            ]
+                .product(name: "Tagged Standard Library Integration", package: "swift-tagged"),
+            ],
+            path: "Sources/Version"
+        ),
+        .target(
+            name: "Version Standard Library Integration",
+            dependencies: [
+                .target(name: "Version"),
+            ],
+            path: "Sources/Version Standard Library Integration"
+        ),
+        .target(
+            name: "Version Foundation Library Integration",
+            dependencies: [
+                .target(name: "Version"),
+                .target(name: "Version Standard Library Integration"),
+            ],
+            path: "Sources/Version Foundation Library Integration"
+        ),
+        .target(
+            name: "Version Test Support",
+            dependencies: [
+                .target(name: "Version"),
+            ],
+            path: "Tests/Support"
         ),
         .testTarget(
             name: "Version Tests",
             dependencies: [
                 .target(name: "Version"),
+                .target(name: "Version Test Support"),
+                .target(name: "Version Standard Library Integration"),
+                .target(name: "Version Foundation Library Integration"),
             ],
             path: "Tests/Version Tests"
         ),
@@ -42,8 +65,8 @@ let package = Package(
     swiftLanguageModes: [.v6]
 )
 
-for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
-    let ecosystem: [SwiftSetting] = [
+for target in package.targets {
+    target.swiftSettings = [
         .strictMemorySafety(),
         .enableUpcomingFeature("ExistentialAny"),
         .enableUpcomingFeature("InternalImportsByDefault"),
@@ -52,8 +75,4 @@ for target in package.targets where ![.system, .binary, .plugin, .macro].contain
         .enableExperimentalFeature("Lifetimes"),
         .enableUpcomingFeature("InferIsolatedConformances"),
     ]
-
-    let package: [SwiftSetting] = []
-
-    target.swiftSettings = (target.swiftSettings ?? []) + ecosystem + package
 }
