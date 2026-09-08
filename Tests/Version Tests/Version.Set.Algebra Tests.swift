@@ -1,9 +1,9 @@
 import Testing
 import Version
 
-@Suite struct `Version.Set Algebra Tests` {
+@Suite struct `Version set algebra preserves normalization and intersection membership` {
     @Test
-    func `Empty set isEmpty`() {
+    func `An empty version set reports that it is empty`() {
         let set: Version.Set<Version.Semantic> = .empty
         #expect(set.isEmpty)
     }
@@ -52,7 +52,7 @@ import Version
     }
 
     @Test
-    func `Intersection of exact and range`() {
+    func `Intersecting an exact version with a containing range preserves that exact version`() {
         let v = Version.Semantic(major: 1, minor: 5, patch: 0)
         let range: Version.Set<Version.Semantic> = .range(
             .upToNextMajor(from: Version.Semantic(major: 1, minor: 0, patch: 0))

@@ -1,7 +1,7 @@
 import Testing
 import Version
 
-@Suite struct `Version.Range.Bound Tests` {
+@Suite struct `Version range bounds describe their inclusion and stored values` {
     @Test
     func `Unbounded prints as 'unbounded'`() {
         let bound: Version.Range<Version.Semantic>.Bound = .unbounded
@@ -23,14 +23,14 @@ import Version
     }
 }
 
-@Suite("Description / DebugDescription")
-struct VersionDescriptionTests {
-    @Suite struct Range {}
-    @Suite struct Set {}
-    @Suite struct Phase {}
+@Suite
+struct `Version ranges sets and phases preserve their textual representations` {
+    @Suite struct `Version range descriptions preserve interval bounds` {}
+    @Suite struct `Version set descriptions preserve member notation and debug structure` {}
+    @Suite struct `Version phases expose their names in descriptions and debug output` {}
 }
 
-extension VersionDescriptionTests.Range {
+extension `Version ranges sets and phases preserve their textual representations`.`Version range descriptions preserve interval bounds` {
     @Test
     func `Unbounded range prints interval notation`() {
         let range: Version.Range<Version.Semantic> = .all
@@ -53,7 +53,7 @@ extension VersionDescriptionTests.Range {
     }
 
     @Test
-    func `Mixed bounds — exclusive lower, inclusive upper`() {
+    func `Mixed version bounds print an open lower and closed upper endpoint`() {
         let range = Version.Range<Version.Semantic>(
             lowerBound: .exclusive(Version.Semantic(major: 1, minor: 0, patch: 0)),
             upperBound: .inclusive(Version.Semantic(major: 2, minor: 0, patch: 0))
@@ -77,7 +77,7 @@ extension VersionDescriptionTests.Range {
     }
 }
 
-extension VersionDescriptionTests.Set {
+extension `Version ranges sets and phases preserve their textual representations`.`Version set descriptions preserve member notation and debug structure` {
     @Test
     func `Empty prints as set-theoretic empty symbol`() {
         let set: Version.Set<Version.Semantic> = .empty
@@ -135,7 +135,7 @@ extension VersionDescriptionTests.Set {
     }
 }
 
-extension VersionDescriptionTests.Phase {
+extension `Version ranges sets and phases preserve their textual representations`.`Version phases expose their names in descriptions and debug output` {
     @Test
     func `Initial prints simple name`() {
         #expect(Version.Semantic.Phase.initial.description == "initial")

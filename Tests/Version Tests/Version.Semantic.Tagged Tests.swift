@@ -2,11 +2,11 @@ import Testing
 import Version
 
 extension Version.Semantic {
-    @Suite struct Test {}
+    @Suite struct `Semantic version components preserve values through distinct tags` {}
 }
 
-extension Version.Semantic.Test {
-    @Suite struct Tagged {
+extension Version.Semantic.`Semantic version components preserve values through distinct tags` {
+    @Suite struct `Tagged semantic components preserve literal values and distinct types` {
         @Test
         func `Integer literal flows through to tagged component`() {
             let major: Version.Semantic.Major.Value = 1

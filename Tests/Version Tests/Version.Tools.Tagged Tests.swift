@@ -2,11 +2,11 @@ import Testing
 import Version
 
 extension Version.Tools {
-    @Suite struct Test {}
+    @Suite struct `Tools version components preserve values through distinct tags` {}
 }
 
-extension Version.Tools.Test {
-    @Suite struct Tagged {
+extension Version.Tools.`Tools version components preserve values through distinct tags` {
+    @Suite struct `Tagged tools components preserve literal values optional patches and distinct types` {
         @Test
         func `Integer literal flows through to tagged component`() {
             let major: Version.Tools.Major.Value = 6
@@ -26,7 +26,7 @@ extension Version.Tools.Test {
         }
 
         @Test
-        func `Patch-absent construction via integer literals`() {
+        func `Tools version construction from major and minor literals leaves the patch absent`() {
             let v = Version.Tools(major: 6, minor: 3)
             #expect(v.patch == nil)
         }

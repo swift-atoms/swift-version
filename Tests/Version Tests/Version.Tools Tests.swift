@@ -1,7 +1,7 @@
 import Testing
 import Version
 
-@Suite struct `Version.Tools Tests` {
+@Suite struct `Tools versions preserve omitted patches and compare present patches` {
     @Test
     func `Component initializer retains omitted patch`() {
         let version = Version.Tools(major: 6, minor: 4)

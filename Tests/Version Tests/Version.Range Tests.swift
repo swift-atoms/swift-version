@@ -1,7 +1,7 @@
 import Testing
 import Version
 
-@Suite struct `Version.Range Tests` {
+@Suite struct `Version ranges include exactly the versions permitted by their bounds` {
     @Test
     func `Unbounded range contains every version`() {
         let range: Version.Range<Version.Semantic> = .all
@@ -41,7 +41,7 @@ import Version
     }
 
     @Test
-    func `upToNextMajor caret semantics`() {
+    func `A next major version range includes its start and excludes the next major version`() {
         let range: Version.Range<Version.Semantic> = .upToNextMajor(
             from: Version.Semantic(major: 1, minor: 2, patch: 3)
         )
@@ -52,7 +52,7 @@ import Version
     }
 
     @Test
-    func `upToNextMinor tilde semantics`() {
+    func `A next minor version range includes its start and excludes the next minor version`() {
         let range: Version.Range<Version.Semantic> = .upToNextMinor(
             from: Version.Semantic(major: 1, minor: 2, patch: 3)
         )

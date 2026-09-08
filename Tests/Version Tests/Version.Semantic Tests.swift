@@ -1,7 +1,7 @@
 import Testing
 import Version
 
-@Suite struct `Version.Semantic Tests` {
+@Suite struct `Semantic versions preserve representation and compare semantic precedence` {
     @Test
     func `Component initializer retains the semantic representation`() {
         let version = Version.Semantic(

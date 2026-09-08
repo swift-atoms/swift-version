@@ -2,7 +2,7 @@ import Testing
 import Version
 
 extension Version.Semantic.Bumped {
-    @Suite struct Test {
+    @Suite struct `Semantic version bumps update components and discard prerelease metadata` {
         @Test
         func `Major bump zeros minor and patch`() {
             let v = Version.Semantic(major: 1, minor: 2, patch: 3)

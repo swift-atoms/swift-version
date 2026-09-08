@@ -1,7 +1,7 @@
 import Testing
 import Version
 
-@Suite struct `Version.Set Tests` {
+@Suite struct `Version sets preserve exact range and union membership` {
     @Test
     func `Empty set contains no version`() {
         let set: Version.Set<Version.Semantic> = .empty

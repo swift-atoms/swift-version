@@ -1,7 +1,7 @@
 import Testing
 import Version
 
-@Suite struct `Version.Range Algebra Tests` {
+@Suite struct `Version range algebra preserves intersections emptiness and containment` {
     @Test
     func `Unbounded range is not empty`() {
         let range: Version.Range<Version.Semantic> = .all
@@ -38,7 +38,7 @@ import Version
     }
 
     @Test
-    func `Intersection of overlapping ranges`() {
+    func `Overlapping version ranges intersect at their shared bounds`() {
         let a = Version.Range<Version.Semantic>(
             lowerBound: .inclusive(Version.Semantic(major: 1, minor: 0, patch: 0)),
             upperBound: .exclusive(Version.Semantic(major: 2, minor: 0, patch: 0))
@@ -69,7 +69,7 @@ import Version
     }
 
     @Test
-    func `Strict subset detected — caret 1 inside 1-3`() {
+    func `A next major version range is strictly contained within a wider version interval`() {
         let inner = Version.Range<Version.Semantic>.upToNextMajor(
             from: Version.Semantic(major: 1, minor: 0, patch: 0)
         )

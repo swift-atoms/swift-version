@@ -2,7 +2,7 @@ import Testing
 import Version
 
 extension Version.Semantic.Phase {
-    @Suite struct Test {
+    @Suite struct `Semantic version phases follow the major component` {
         @Test
         func `Zero major is initial`() {
             let v = Version.Semantic(major: 0, minor: 1, patch: 0)
