@@ -1,4 +1,3 @@
-# .github/metadata.yaml
 description: "Typed versioning primitives — Version.Semantic (Semantic Versioning 2.0.0 per semver.org) with throwing parser, typed errors, and §11 precedence comparison."
 topics:
   - primitives
