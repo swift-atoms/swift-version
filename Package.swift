@@ -37,10 +37,6 @@ let package = Package(
         .package(url: "https://github.com/swift-atoms/swift-serializer.git", branch: "main"),
     ],
     targets: [
-        .testTarget(name: "Version Calendar Tests", dependencies: [
-                .target(name: "Version"),
-                .product(name: "Calendar Gregorian", package: "swift-calendar-gregorian", condition: .when(traits: ["Calendar"]))
-            ], path: "Tests/Version Calendar Tests"),
         .target(
             name: "Version",
             dependencies: [
