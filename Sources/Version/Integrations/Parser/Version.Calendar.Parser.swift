@@ -1,13 +1,13 @@
 #if Parser && Calendar
 
-public import ASCII
+import ASCII
 public import Byte
-public import Checkpoint
+import Checkpoint
 public import Cursor
 public import Iterator
 public import Parser
 internal import Tagged
-public import Text
+import Text
 internal import Calendar_Gregorian
 
 extension Version.Calendar {

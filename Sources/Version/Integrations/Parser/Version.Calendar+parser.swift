@@ -2,7 +2,7 @@
 
 public import Byte
 public import Cursor
-public import Parser
+import Parser
 
 extension Version.Calendar {
 
