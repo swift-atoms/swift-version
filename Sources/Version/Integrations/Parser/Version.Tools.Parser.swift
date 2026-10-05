@@ -14,6 +14,12 @@ extension Version.Tools {
 }
 
 extension Version.Tools.Parser: Parsing {
+    public var body: Never {
+        borrowing get {
+            return fatalError("\(Self.self) is a leaf: implement its conformance requirements directly")
+        }
+    }
+
 
     public typealias Output = Version.Tools
     public typealias Failure = Version.Tools.ParserError
