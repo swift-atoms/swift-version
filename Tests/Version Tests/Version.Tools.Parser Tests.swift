@@ -26,7 +26,7 @@ import Testing
         let version = try Version.Tools.Parser().parse(&input)
         var output: [Byte] = []
         Version.Tools.Serializer().serialize(version, into: &output)
-        #expect(Swift.String(decoding: output.map(\.bitPattern), as: Swift.UTF8.self) == "6.4.1")
+        #expect(Swift::String(decoding: output.map(\.bitPattern), as: Swift::UTF8.self) == "6.4.1")
     }
 
     @Test

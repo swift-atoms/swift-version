@@ -16,7 +16,7 @@ import Testing
         )
         var bytes: [Byte] = []
         Version.Semantic.Serializer().serialize(version, into: &bytes)
-        #expect(Swift.String(decoding: bytes.map(\.bitPattern), as: Swift.UTF8.self) == "1.2.3-rc.1+build.42")
+        #expect(Swift::String(decoding: bytes.map(\.bitPattern), as: Swift::UTF8.self) == "1.2.3-rc.1+build.42")
     }
 
     @Test
@@ -24,7 +24,7 @@ import Testing
         let version = Version.Tools(major: 6, minor: 4)
         var bytes: [Byte] = []
         Version.Tools.Serializer().serialize(version, into: &bytes)
-        #expect(Swift.String(decoding: bytes.map(\.bitPattern), as: Swift.UTF8.self) == "6.4")
+        #expect(Swift::String(decoding: bytes.map(\.bitPattern), as: Swift::UTF8.self) == "6.4")
     }
 }
 

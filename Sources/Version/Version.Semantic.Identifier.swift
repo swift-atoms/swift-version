@@ -1,10 +1,10 @@
 extension Version.Semantic {
 
-    public enum Identifier: Swift.Sendable, Swift.Hashable, Swift.Comparable {
+    public enum Identifier: Swift::Sendable, Swift::Hashable, Swift::Comparable {
 
-        case numeric(Swift.UInt)
+        case numeric(Swift::UInt)
 
-        case alphanumeric(Swift.String)
+        case alphanumeric(Swift::String)
     }
 }
 

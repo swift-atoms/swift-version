@@ -2,8 +2,7 @@ public import Tagged
 
 extension Version {
 
-    public struct Tools: Swift.Sendable, Swift.Hashable, Swift.Comparable, Swift
-            .CustomStringConvertible
+    public struct Tools: Swift::Sendable, Swift::Hashable, Swift::Comparable, Swift::CustomStringConvertible
     {
 
         public let major: Major.Value
@@ -28,7 +27,7 @@ extension Version {
 
 extension Version.Tools {
 
-    public var description: Swift.String {
+    public var description: Swift::String {
         var value = "\(major.underlying).\(minor.underlying)"
         if let patch {
             value += ".\(patch.underlying)"
@@ -37,7 +36,7 @@ extension Version.Tools {
     }
 
     @inlinable
-    public static func < (lhs: Self, rhs: Self) -> Swift.Bool {
+    public static func < (lhs: Self, rhs: Self) -> Swift::Bool {
         if lhs.major != rhs.major { return lhs.major < rhs.major }
         if lhs.minor != rhs.minor { return lhs.minor < rhs.minor }
         let lp = lhs.patch?.underlying ?? 0

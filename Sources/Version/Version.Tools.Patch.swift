@@ -1,4 +1,4 @@
 extension Version.Tools {
 
-    public enum Patch: Swift.Sendable {}
+    public enum Patch: Swift::Sendable {}
 }

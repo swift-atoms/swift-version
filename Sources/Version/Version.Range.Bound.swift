@@ -1,6 +1,6 @@
 extension Version.Range {
 
-    public enum Bound: Swift.Hashable {
+    public enum Bound: Swift::Hashable {
 
         case unbounded
 
@@ -10,4 +10,4 @@ extension Version.Range {
     }
 }
 
-extension Version.Range.Bound: Swift.Sendable where Underlying: Swift.Sendable {}
+extension Version.Range.Bound: Swift::Sendable where Underlying: Swift::Sendable {}

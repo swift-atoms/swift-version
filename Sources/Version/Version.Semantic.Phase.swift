@@ -1,6 +1,6 @@
 extension Version.Semantic {
 
-    public enum Phase: Swift.Sendable, Swift.Hashable {
+    public enum Phase: Swift::Sendable, Swift::Hashable {
 
         case initial
 

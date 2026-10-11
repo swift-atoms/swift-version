@@ -6,7 +6,7 @@ internal import Text
 
 extension Version.Tools {
 
-    public struct Parser: Swift.Sendable {
+    public struct Parser: Swift::Sendable {
 
         @inlinable
         public init() {}
@@ -28,7 +28,7 @@ extension Version.Tools.Parser: Parsing {
         try Self.consumeDot(in: &input, offset: &offset, original: originalString)
         let minor = try Self.parseNumber(&input, offset: &offset, in: originalString)
 
-        var patch: Swift.UInt?
+        var patch: Swift::UInt?
         if !input.isEmpty, input[input.startIndex + 0].bitPattern == 0x2E {
             input.removeFirst(1)
             offset += 1
@@ -42,7 +42,7 @@ extension Version.Tools.Parser: Parsing {
         )
     }
 
-    static func findToolsVersionEnd(in input: ArraySlice<Byte>) -> Swift.Int {
+    static func findToolsVersionEnd(in input: ArraySlice<Byte>) -> Swift::Int {
         var offset = 0
         while offset < input.count, Self.isToolsVersionByte(input[input.startIndex + offset]) {
             offset += 1
@@ -52,9 +52,9 @@ extension Version.Tools.Parser: Parsing {
 
     static func parseNumber(
         _ input: inout ArraySlice<Byte>,
-        offset: inout Swift.Int,
-        in originalString: Swift.String
-    ) throws(Failure) -> Swift.UInt {
+        offset: inout Swift::Int,
+        in originalString: Swift::String
+    ) throws(Failure) -> Swift::UInt {
         let startOffset = offset
         guard !input.isEmpty, Self.isDigit(input[input.startIndex + 0]) else {
             throw .invalidToolsVersionIdentifier(
@@ -78,9 +78,9 @@ extension Version.Tools.Parser: Parsing {
             )
         }
 
-        var value: Swift.UInt = 0
+        var value: Swift::UInt = 0
         for index in 0..<count {
-            let digit = Swift.UInt(input[input.startIndex + index].bitPattern - 0x30)
+            let digit = Swift::UInt(input[input.startIndex + index].bitPattern - 0x30)
             let (scaled, multipliedOverflow) = value.multipliedReportingOverflow(by: 10)
             let (next, addedOverflow) = scaled.addingReportingOverflow(digit)
             guard !multipliedOverflow, !addedOverflow else {
@@ -99,8 +99,8 @@ extension Version.Tools.Parser: Parsing {
 
     static func consumeDot(
         in input: inout ArraySlice<Byte>,
-        offset: inout Swift.Int,
-        original originalString: Swift.String
+        offset: inout Swift::Int,
+        original originalString: Swift::String
     ) throws(Failure) {
         guard !input.isEmpty, input[input.startIndex + 0].bitPattern == 0x2E else {
             throw .invalidToolsVersionIdentifierCount(
@@ -112,23 +112,23 @@ extension Version.Tools.Parser: Parsing {
         offset += 1
     }
 
-    static func string(from input: ArraySlice<Byte>, count: Swift.Int) -> Swift.String {
+    static func string(from input: ArraySlice<Byte>, count: Swift::Int) -> Swift::String {
         let bytes = (0..<count).map { input[input.startIndex + $0].bitPattern }
-        return Swift.String(decoding: bytes, as: Swift.UTF8.self)
+        return Swift::String(decoding: bytes, as: Swift::UTF8.self)
     }
 
-    static func range(from start: Swift.Int, to end: Swift.Int) -> Text.Range {
+    static func range(from start: Swift::Int, to end: Swift::Int) -> Text.Range {
         Text.Range(
-            start: Text.Position(_unchecked: Ordinal(Swift.UInt(start))),
-            end: Text.Position(_unchecked: Ordinal(Swift.UInt(end)))
+            start: Text.Position(_unchecked: Ordinal(Swift::UInt(start))),
+            end: Text.Position(_unchecked: Ordinal(Swift::UInt(end)))
         )
     }
 
-    static func isToolsVersionByte(_ byte: Byte) -> Swift.Bool {
+    static func isToolsVersionByte(_ byte: Byte) -> Swift::Bool {
         Self.isDigit(byte) || byte.bitPattern == 0x2E
     }
 
-    static func isDigit(_ byte: Byte) -> Swift.Bool {
+    static func isDigit(_ byte: Byte) -> Swift::Bool {
         (0x30...0x39).contains(byte.bitPattern)
     }
 }

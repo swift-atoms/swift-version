@@ -1,6 +1,6 @@
 extension Version.Semantic {
 
-    public struct Bumped: Swift.Sendable {
+    public struct Bumped: Swift::Sendable {
         @usableFromInline
         let base: Version.Semantic
 

@@ -74,7 +74,6 @@ let package = Package(
             dependencies: [
                 .target(name: "Version"),
                 .target(name: "Version Test Support"),
-                .target(name: "Version Foundation Integration"),
             ],
             path: "Tests/Version Tests"
         ),
@@ -83,7 +82,7 @@ let package = Package(
     swiftLanguageModes: [.v6]
 )
 
-for target in package.targets where ![.system, .binary, .plugin].contains(target.type) {
+for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
     target.swiftSettings = (target.swiftSettings ?? []) + [
         .strictMemorySafety(),
         .enableUpcomingFeature("ExistentialAny"),

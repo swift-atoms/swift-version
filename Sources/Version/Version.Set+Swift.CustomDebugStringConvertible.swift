@@ -1,7 +1,7 @@
-extension Version.Set: Swift.CustomDebugStringConvertible
-where Underlying: Swift.CustomStringConvertible {
+extension Version.Set: Swift::CustomDebugStringConvertible
+where Underlying: Swift::CustomStringConvertible {
 
-    public var debugDescription: Swift.String {
+    public var debugDescription: Swift::String {
         switch self {
         case .empty:
             return ".empty"

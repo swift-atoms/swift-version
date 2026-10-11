@@ -1,8 +1,8 @@
-extension Version.Range: Swift.CustomStringConvertible
-where Underlying: Swift.CustomStringConvertible {
+extension Version.Range: Swift::CustomStringConvertible
+where Underlying: Swift::CustomStringConvertible {
 
-    public var description: Swift.String {
-        let left: Swift.String
+    public var description: Swift::String {
+        let left: Swift::String
         switch self.lowerBound {
         case .unbounded:
             left = "(-∞"
@@ -13,7 +13,7 @@ where Underlying: Swift.CustomStringConvertible {
         case .exclusive(let value):
             left = "(" + value.description
         }
-        let right: Swift.String
+        let right: Swift::String
         switch self.upperBound {
         case .unbounded:
             right = "+∞)"

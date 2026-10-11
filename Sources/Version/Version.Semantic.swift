@@ -2,8 +2,7 @@ public import Tagged
 
 extension Version {
 
-    public struct Semantic: Swift.Sendable, Swift.Hashable, Swift.Comparable, Swift
-            .CustomStringConvertible
+    public struct Semantic: Swift::Sendable, Swift::Hashable, Swift::Comparable, Swift::CustomStringConvertible
     {
 
         public let major: Major.Value
@@ -14,14 +13,14 @@ extension Version {
 
         public let preReleaseIdentifiers: [Identifier]
 
-        public let buildMetadataIdentifiers: [Swift.String]
+        public let buildMetadataIdentifiers: [Swift::String]
 
         public init(
             major: Major.Value,
             minor: Minor.Value,
             patch: Patch.Value,
             preReleaseIdentifiers: [Identifier] = [],
-            buildMetadataIdentifiers: [Swift.String] = []
+            buildMetadataIdentifiers: [Swift::String] = []
         ) {
             self.major = major
             self.minor = minor
@@ -34,12 +33,12 @@ extension Version {
 }
 
 extension Version.Semantic {
-    public var description: Swift.String {
+    public var description: Swift::String {
         var value = "\(major.underlying).\(minor.underlying).\(patch.underlying)"
         if !preReleaseIdentifiers.isEmpty {
             value += "-" + preReleaseIdentifiers.map { identifier in
                 switch identifier {
-                case .numeric(let number): return Swift.String(number)
+                case .numeric(let number): return Swift::String(number)
                 case .alphanumeric(let text): return text
                 }
             }.joined(separator: ".")
@@ -57,7 +56,7 @@ extension Version.Semantic {
             && lhs.preReleaseIdentifiers == rhs.preReleaseIdentifiers
     }
 
-    public func hash(into hasher: inout Swift.Hasher) {
+    public func hash(into hasher: inout Swift::Hasher) {
         hasher.combine(self.major)
         hasher.combine(self.minor)
         hasher.combine(self.patch)

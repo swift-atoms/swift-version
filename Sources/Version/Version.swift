@@ -1,1 +1,1 @@
-public enum Version: Swift.Sendable {}
+public enum Version: Swift::Sendable {}

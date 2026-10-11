@@ -6,7 +6,7 @@ internal import Text
 
 extension Version.Semantic {
 
-    public struct Parser: Swift.Sendable {
+    public struct Parser: Swift::Sendable {
 
         @inlinable
         public init() {}
@@ -41,7 +41,7 @@ extension Version.Semantic.Parser: Parsing {
             )
         }
 
-        var build: [Swift.String] = []
+        var build: [Swift::String] = []
         if !input.isEmpty, input[input.startIndex + 0].bitPattern == 0x2B {
             input.removeFirst(1)
             offset += 1
@@ -61,7 +61,7 @@ extension Version.Semantic.Parser: Parsing {
         )
     }
 
-    static func findSemVerEnd(in input: ArraySlice<Byte>) -> Swift.Int {
+    static func findSemVerEnd(in input: ArraySlice<Byte>) -> Swift::Int {
         var offset = 0
         while offset < input.count, Self.isSemVerByte(input[input.startIndex + offset]) {
             offset += 1
@@ -71,9 +71,9 @@ extension Version.Semantic.Parser: Parsing {
 
     static func parseCoreNumber(
         _ input: inout ArraySlice<Byte>,
-        offset: inout Swift.Int,
-        in originalString: Swift.String
-    ) throws(Failure) -> Swift.UInt {
+        offset: inout Swift::Int,
+        in originalString: Swift::String
+    ) throws(Failure) -> Swift::UInt {
         let startOffset = offset
         guard !input.isEmpty, Self.isDigit(input[input.startIndex + 0]) else {
             throw .invalidVersionCoreIdentifier(
@@ -97,9 +97,9 @@ extension Version.Semantic.Parser: Parsing {
             )
         }
 
-        var value: Swift.UInt = 0
+        var value: Swift::UInt = 0
         for index in 0..<count {
-            let digit = Swift.UInt(input[input.startIndex + index].bitPattern - 0x30)
+            let digit = Swift::UInt(input[input.startIndex + index].bitPattern - 0x30)
             let (scaled, multipliedOverflow) = value.multipliedReportingOverflow(by: 10)
             let (next, addedOverflow) = scaled.addingReportingOverflow(digit)
             guard !multipliedOverflow, !addedOverflow else {
@@ -117,10 +117,10 @@ extension Version.Semantic.Parser: Parsing {
     }
 
     static func consumeDelimiter(
-        _ byte: Swift.UInt8,
+        _ byte: Swift::UInt8,
         in input: inout ArraySlice<Byte>,
-        offset: inout Swift.Int,
-        original originalString: Swift.String
+        offset: inout Swift::Int,
+        original originalString: Swift::String
     ) throws(Failure) {
         guard !input.isEmpty, input[input.startIndex + 0].bitPattern == byte else {
             throw .invalidVersionCoreIdentifierCount(
@@ -133,7 +133,7 @@ extension Version.Semantic.Parser: Parsing {
         offset += 1
     }
 
-    static func countCoreParts(in original: Swift.String) -> Swift.Int {
+    static func countCoreParts(in original: Swift::String) -> Swift::Int {
         var count = 1
         for byte in original.utf8 {
             if byte == 0x2D || byte == 0x2B { break }
@@ -144,8 +144,8 @@ extension Version.Semantic.Parser: Parsing {
 
     static func parsePreReleaseIdentifiers(
         _ input: inout ArraySlice<Byte>,
-        offset: inout Swift.Int,
-        original originalString: Swift.String
+        offset: inout Swift::Int,
+        original originalString: Swift::String
     ) throws(Failure) -> [Version.Semantic.Identifier] {
         var identifiers: [Version.Semantic.Identifier] = []
         repeat {
@@ -177,7 +177,7 @@ extension Version.Semantic.Parser: Parsing {
                         range: range
                     )
                 }
-                guard let value = Swift.UInt(text) else {
+                guard let value = Swift::UInt(text) else {
                     throw .invalidPreReleaseIdentifierCharacters(
                         input: originalString,
                         identifier: text,
@@ -196,10 +196,10 @@ extension Version.Semantic.Parser: Parsing {
 
     static func parseBuildMetadataIdentifiers(
         _ input: inout ArraySlice<Byte>,
-        offset: inout Swift.Int,
-        original originalString: Swift.String
-    ) throws(Failure) -> [Swift.String] {
-        var identifiers: [Swift.String] = []
+        offset: inout Swift::Int,
+        original originalString: Swift::String
+    ) throws(Failure) -> [Swift::String] {
+        var identifiers: [Swift::String] = []
         repeat {
             let startOffset = offset
             let (text, count) = Self.takeIdentifier(from: input)
@@ -226,7 +226,7 @@ extension Version.Semantic.Parser: Parsing {
         return identifiers
     }
 
-    static func takeIdentifier(from input: ArraySlice<Byte>) -> (Swift.String, Swift.Int) {
+    static func takeIdentifier(from input: ArraySlice<Byte>) -> (Swift::String, Swift::Int) {
         var count = 0
         while count < input.count {
             let byte = input[input.startIndex + count].bitPattern
@@ -236,30 +236,30 @@ extension Version.Semantic.Parser: Parsing {
         return (Self.string(from: input, count: count), count)
     }
 
-    static func consumeIfDot(_ input: inout ArraySlice<Byte>, offset: inout Swift.Int) -> Swift.Bool {
+    static func consumeIfDot(_ input: inout ArraySlice<Byte>, offset: inout Swift::Int) -> Swift::Bool {
         guard !input.isEmpty, input[input.startIndex + 0].bitPattern == 0x2E else { return false }
         input.removeFirst(1)
         offset += 1
         return true
     }
 
-    static func string(from input: ArraySlice<Byte>, count: Swift.Int) -> Swift.String {
+    static func string(from input: ArraySlice<Byte>, count: Swift::Int) -> Swift::String {
         let bytes = (0..<count).map { input[input.startIndex + $0].bitPattern }
-        return Swift.String(decoding: bytes, as: Swift.UTF8.self)
+        return Swift::String(decoding: bytes, as: Swift::UTF8.self)
     }
 
-    static func range(from start: Swift.Int, to end: Swift.Int) -> Text.Range {
+    static func range(from start: Swift::Int, to end: Swift::Int) -> Text.Range {
         Text.Range(
-            start: Text.Position(_unchecked: Ordinal(Swift.UInt(start))),
-            end: Text.Position(_unchecked: Ordinal(Swift.UInt(end)))
+            start: Text.Position(_unchecked: Ordinal(Swift::UInt(start))),
+            end: Text.Position(_unchecked: Ordinal(Swift::UInt(end)))
         )
     }
 
-    static func isSemVerByte(_ byte: Byte) -> Swift.Bool {
+    static func isSemVerByte(_ byte: Byte) -> Swift::Bool {
         Self.isIdentifierByte(byte) || byte.bitPattern == 0x2E || byte.bitPattern == 0x2B
     }
 
-    static func isIdentifierByte(_ byte: Byte) -> Swift.Bool {
+    static func isIdentifierByte(_ byte: Byte) -> Swift::Bool {
         let value = byte.bitPattern
         return Self.isDigit(byte)
             || (0x41...0x5A).contains(value)
@@ -267,7 +267,7 @@ extension Version.Semantic.Parser: Parsing {
             || value == 0x2D
     }
 
-    static func isDigit(_ byte: Byte) -> Swift.Bool {
+    static func isDigit(_ byte: Byte) -> Swift::Bool {
         (0x30...0x39).contains(byte.bitPattern)
     }
 }

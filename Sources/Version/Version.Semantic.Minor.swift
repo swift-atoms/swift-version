@@ -1,4 +1,4 @@
 extension Version.Semantic {
 
-    public enum Minor: Swift.Sendable {}
+    public enum Minor: Swift::Sendable {}
 }

@@ -12,7 +12,7 @@ import Tagged
         let version = Version.Semantic(major: 1, minor: 2, patch: 3)
         var buffer: [Byte] = []
         Version.Semantic.Serializer().serialize(version, into: &buffer)
-        #expect(Swift.String(decoding: buffer.map(\.bitPattern), as: Swift.UTF8.self) == "1.2.3")
+        #expect(Swift::String(decoding: buffer.map(\.bitPattern), as: Swift::UTF8.self) == "1.2.3")
     }
 
     @Test
@@ -26,7 +26,7 @@ import Tagged
         )
         var buffer: [Byte] = []
         Version.Semantic.Serializer().serialize(version, into: &buffer)
-        #expect(Swift.String(decoding: buffer.map(\.bitPattern), as: Swift.UTF8.self) == "1.2.3-alpha.1+sha.abc123")
+        #expect(Swift::String(decoding: buffer.map(\.bitPattern), as: Swift::UTF8.self) == "1.2.3-alpha.1+sha.abc123")
     }
 
     @Test
@@ -48,7 +48,7 @@ import Tagged
             let parsed = try Version.Semantic.Parser().parse(&bytes)
             var buffer: [Byte] = []
             Version.Semantic.Serializer().serialize(parsed, into: &buffer)
-            let roundTripped = Swift.String(decoding: buffer.map(\.bitPattern), as: Swift.UTF8.self)
+            let roundTripped = Swift::String(decoding: buffer.map(\.bitPattern), as: Swift::UTF8.self)
             #expect(roundTripped == input, "round-trip failure for \(input)")
         }
     }
@@ -64,7 +64,7 @@ import Tagged
         )
         var buffer: [Byte] = []
         Version.Semantic.Serializer().serialize(version, into: &buffer)
-        #expect(Swift.String(decoding: buffer.map(\.bitPattern), as: Swift.UTF8.self) == "2.0.0-rc.1+build.99")
+        #expect(Swift::String(decoding: buffer.map(\.bitPattern), as: Swift::UTF8.self) == "2.0.0-rc.1+build.99")
     }
 }
 #endif

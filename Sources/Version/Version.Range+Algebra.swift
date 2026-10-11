@@ -1,7 +1,7 @@
 extension Version.Range {
 
     @inlinable
-    public var isEmpty: Swift.Bool {
+    public var isEmpty: Swift::Bool {
         switch (self.lowerBound, self.upperBound) {
         case (.unbounded, _), (_, .unbounded):
             return false
@@ -27,30 +27,30 @@ extension Version.Range {
     }
 
     @inlinable
-    public func overlaps(_ other: Self) -> Swift.Bool {
+    public func overlaps(_ other: Self) -> Swift::Bool {
 
         !self.intersection(other).isEmpty
     }
 
     @inlinable
-    public func isSubset(of other: Self) -> Swift.Bool {
+    public func isSubset(of other: Self) -> Swift::Bool {
         if self.isEmpty { return true }
         return Self.lowerCoversOrEqual(other.lowerBound, vs: self.lowerBound)
             && Self.upperCoversOrEqual(other.upperBound, vs: self.upperBound)
     }
 
     @inlinable
-    public func isSuperset(of other: Self) -> Swift.Bool {
+    public func isSuperset(of other: Self) -> Swift::Bool {
         other.isSubset(of: self)
     }
 
     @inlinable
-    public func contains(_ other: Self) -> Swift.Bool {
+    public func contains(_ other: Self) -> Swift::Bool {
         other.isSubset(of: self)
     }
 
     @usableFromInline
-    static func lowerCoversOrEqual(_ enclosing: Bound, vs enclosed: Bound) -> Swift.Bool {
+    static func lowerCoversOrEqual(_ enclosing: Bound, vs enclosed: Bound) -> Swift::Bool {
         switch (enclosing, enclosed) {
         case (.unbounded, _): return true
         case (_, .unbounded): return false
@@ -65,7 +65,7 @@ extension Version.Range {
     }
 
     @usableFromInline
-    static func upperCoversOrEqual(_ enclosing: Bound, vs enclosed: Bound) -> Swift.Bool {
+    static func upperCoversOrEqual(_ enclosing: Bound, vs enclosed: Bound) -> Swift::Bool {
         switch (enclosing, enclosed) {
         case (.unbounded, _): return true
         case (_, .unbounded): return false
@@ -85,10 +85,10 @@ extension Version.Range {
         case (_, .unbounded): return lhs
 
         case (.inclusive(let l), .inclusive(let r)):
-            return .inclusive(Swift.max(l, r))
+            return .inclusive(Swift::max(l, r))
 
         case (.exclusive(let l), .exclusive(let r)):
-            return .exclusive(Swift.max(l, r))
+            return .exclusive(Swift::max(l, r))
 
         case (.inclusive(let i), .exclusive(let e)),
             (.exclusive(let e), .inclusive(let i)):
@@ -106,10 +106,10 @@ extension Version.Range {
         case (_, .unbounded): return lhs
 
         case (.inclusive(let l), .inclusive(let r)):
-            return .inclusive(Swift.min(l, r))
+            return .inclusive(Swift::min(l, r))
 
         case (.exclusive(let l), .exclusive(let r)):
-            return .exclusive(Swift.min(l, r))
+            return .exclusive(Swift::min(l, r))
 
         case (.inclusive(let i), .exclusive(let e)),
             (.exclusive(let e), .inclusive(let i)):

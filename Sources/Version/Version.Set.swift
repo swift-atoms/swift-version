@@ -1,6 +1,6 @@
 extension Version {
 
-    public indirect enum Set<Underlying: Swift.Hashable & Swift.Comparable>: Swift.Hashable {
+    public indirect enum Set<Underlying: Swift::Hashable & Swift::Comparable>: Swift::Hashable {
 
         case empty
 
@@ -17,7 +17,7 @@ extension Version {
 extension Version.Set {
 
     @inlinable
-    public func contains(_ version: Underlying) -> Swift.Bool {
+    public func contains(_ version: Underlying) -> Swift::Bool {
         switch self {
         case .empty:
             return false
@@ -40,4 +40,4 @@ extension Version.Set {
     }
 }
 
-extension Version.Set: Swift.Sendable where Underlying: Swift.Sendable {}
+extension Version.Set: Swift::Sendable where Underlying: Swift::Sendable {}

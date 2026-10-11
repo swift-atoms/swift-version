@@ -1,7 +1,7 @@
 extension Version.Set {
 
     @inlinable
-    public var isEmpty: Swift.Bool {
+    public var isEmpty: Swift::Bool {
         switch self {
         case .empty:
             return true

@@ -4,19 +4,18 @@ public import Calendar_Gregorian
 
 extension Version {
 
-    public enum Calendar: Swift.Sendable, Swift.Hashable, Swift.Comparable, Swift
-            .CustomStringConvertible
+    public enum Calendar: Swift::Sendable, Swift::Hashable, Swift::Comparable, Swift::CustomStringConvertible
     {
 
-        case yearOnly(year: Gregorian.Year, modifier: Swift.String? = nil)
+        case yearOnly(year: Gregorian.Year, modifier: Swift::String? = nil)
 
-        case yearMonth(year: Gregorian.Year, month: Gregorian.Month, modifier: Swift.String? = nil)
+        case yearMonth(year: Gregorian.Year, month: Gregorian.Month, modifier: Swift::String? = nil)
 
         case full(
             year: Gregorian.Year,
             month: Gregorian.Month,
             micro: Micro.Value,
-            modifier: Swift.String? = nil
+            modifier: Swift::String? = nil
         )
 
     }
@@ -24,27 +23,27 @@ extension Version {
 
 extension Version.Calendar {
 
-    public var description: Swift.String {
-        func padded(_ value: Swift.UInt) -> Swift.String {
-            value < 10 ? "0\(value)" : Swift.String(value)
+    public var description: Swift::String {
+        func padded(_ value: Swift::UInt) -> Swift::String {
+            value < 10 ? "0\(value)" : Swift::String(value)
         }
-        func suffixed(_ value: Swift.String, _ modifier: Swift.String?) -> Swift.String {
+        func suffixed(_ value: Swift::String, _ modifier: Swift::String?) -> Swift::String {
             modifier.map { value + "-" + $0 } ?? value
         }
         switch self {
         case .yearOnly(let year, let modifier):
-            return suffixed(Swift.String(year.rawValue), modifier)
+            return suffixed(Swift::String(year.rawValue), modifier)
         case .yearMonth(let year, let month, let modifier):
-            return suffixed("\(year.rawValue).\(padded(Swift.UInt(month.rawValue)))", modifier)
+            return suffixed("\(year.rawValue).\(padded(Swift::UInt(month.rawValue)))", modifier)
         case .full(let year, let month, let micro, let modifier):
             return suffixed(
-                "\(year.rawValue).\(padded(Swift.UInt(month.rawValue))).\(padded(micro.underlying))",
+                "\(year.rawValue).\(padded(Swift::UInt(month.rawValue))).\(padded(micro.underlying))",
                 modifier
             )
         }
     }
 
-    public static func < (lhs: Self, rhs: Self) -> Swift.Bool {
+    public static func < (lhs: Self, rhs: Self) -> Swift::Bool {
         let (ly, lm, lu, lp, lmod) = lhs.normalized()
         let (ry, rm, ru, rp, rmod) = rhs.normalized()
         if ly != ry { return ly < ry }
@@ -61,7 +60,7 @@ extension Version.Calendar {
 
     @usableFromInline
     func normalized() -> (
-        year: Swift.Int, month: Swift.Int, micro: Swift.UInt, precision: Swift.Int, modifier: Swift.String?
+        year: Swift::Int, month: Swift::Int, micro: Swift::UInt, precision: Swift::Int, modifier: Swift::String?
     ) {
         switch self {
         case .yearOnly(let y, let mod):

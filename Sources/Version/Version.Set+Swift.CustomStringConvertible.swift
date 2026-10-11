@@ -1,7 +1,7 @@
-extension Version.Set: Swift.CustomStringConvertible
-where Underlying: Swift.CustomStringConvertible {
+extension Version.Set: Swift::CustomStringConvertible
+where Underlying: Swift::CustomStringConvertible {
 
-    public var description: Swift.String {
+    public var description: Swift::String {
         switch self {
         case .empty:
             return "∅"

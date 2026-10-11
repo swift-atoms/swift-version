@@ -4,39 +4,39 @@ public import Text
 
 extension Version.Semantic {
 
-    public enum ParserError: Swift.Error, Swift.Sendable, Swift.Hashable {
+    public enum ParserError: Swift::Error, Swift::Sendable, Swift::Hashable {
 
         case invalidVersionCoreIdentifierCount(
-            input: Swift.String,
-            found: Swift.Int,
+            input: Swift::String,
+            found: Swift::Int,
             range: Text.Range
         )
 
         case invalidVersionCoreIdentifier(
-            input: Swift.String,
-            identifier: Swift.String,
+            input: Swift::String,
+            identifier: Swift::String,
             range: Text.Range
         )
 
-        case emptyPreReleaseIdentifier(input: Swift.String, range: Text.Range)
+        case emptyPreReleaseIdentifier(input: Swift::String, range: Text.Range)
 
         case invalidPreReleaseIdentifierCharacters(
-            input: Swift.String,
-            identifier: Swift.String,
+            input: Swift::String,
+            identifier: Swift::String,
             range: Text.Range
         )
 
         case leadingZeroInNumericPreReleaseIdentifier(
-            input: Swift.String,
-            identifier: Swift.String,
+            input: Swift::String,
+            identifier: Swift::String,
             range: Text.Range
         )
 
-        case emptyBuildMetadataIdentifier(input: Swift.String, range: Text.Range)
+        case emptyBuildMetadataIdentifier(input: Swift::String, range: Text.Range)
 
         case invalidBuildMetadataIdentifierCharacters(
-            input: Swift.String,
-            identifier: Swift.String,
+            input: Swift::String,
+            identifier: Swift::String,
             range: Text.Range
         )
     }
@@ -58,7 +58,7 @@ extension Version.Semantic.ParserError {
     }
 
     @inlinable
-    public var input: Swift.String {
+    public var input: Swift::String {
         switch self {
         case .invalidVersionCoreIdentifierCount(let input, _, _): return input
         case .invalidVersionCoreIdentifier(let input, _, _): return input
