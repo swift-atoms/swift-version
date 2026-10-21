@@ -17,10 +17,16 @@ import Version
     @Test
     func `Build metadata is excluded from semantic equality and hashing`() {
         let lhs = Version.Semantic(
-            major: 1, minor: 0, patch: 0, buildMetadataIdentifiers: ["a"]
+            major: 1,
+            minor: 0,
+            patch: 0,
+            buildMetadataIdentifiers: ["a"]
         )
         let rhs = Version.Semantic(
-            major: 1, minor: 0, patch: 0, buildMetadataIdentifiers: ["b"]
+            major: 1,
+            minor: 0,
+            patch: 0,
+            buildMetadataIdentifiers: ["b"]
         )
         #expect(lhs == rhs)
         #expect(lhs.hashValue == rhs.hashValue)

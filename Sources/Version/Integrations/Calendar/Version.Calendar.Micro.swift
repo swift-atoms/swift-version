@@ -1,6 +1,6 @@
 #if Calendar
-extension Version.Calendar {
+    extension Version.Calendar {
 
-    public enum Micro: Swift::Sendable {}
-}
+        public enum Micro: Swift::Sendable {}
+    }
 #endif

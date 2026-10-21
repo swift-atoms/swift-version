@@ -58,14 +58,14 @@ let package = Package(
         .target(
             name: "Version Foundation Integration",
             dependencies: [
-                .target(name: "Version"),
+                .target(name: "Version")
             ],
             path: "Sources/Version Foundation Integration"
         ),
         .target(
             name: "Version Test Support",
             dependencies: [
-                .target(name: "Version"),
+                .target(name: "Version")
             ],
             path: "Tests/Support"
         ),
@@ -77,20 +77,33 @@ let package = Package(
             ],
             path: "Tests/Version Tests"
         ),
-        .testTarget(name: "Version Calendar Parser Tests", dependencies: [.product(name: "Tagged", package: "swift-tagged", condition: .when(traits: ["Parser"])), .product(name: "Calendar Gregorian", package: "swift-calendar-gregorian", condition: .when(traits: ["Calendar"])), .target(name: "Version"), .product(name: "Byte", package: "swift-byte", condition: .when(traits: ["Parser"])), .product(name: "Parser", package: "swift-parser", condition: .when(traits: ["Parser"])), .product(name: "ASCII", package: "swift-ascii", condition: .when(traits: ["Parser"])), .product(name: "Checkpoint", package: "swift-checkpoint", condition: .when(traits: ["Parser"])), .product(name: "Cursor", package: "swift-cursor", condition: .when(traits: ["Parser"])), .product(name: "Iterator", package: "swift-iterator", condition: .when(traits: ["Parser"])), .product(name: "Ordinal", package: "swift-ordinal", condition: .when(traits: ["Parser"])), .product(name: "Text", package: "swift-text", condition: .when(traits: ["Parser"])), .product(name: "Serializer", package: "swift-serializer", condition: .when(traits: ["Parser"]))], path: "Tests/Version Calendar Parser Tests"),
+        .testTarget(
+            name: "Version Calendar Parser Tests",
+            dependencies: [
+                .product(name: "Tagged", package: "swift-tagged", condition: .when(traits: ["Parser"])),
+                .product(name: "Calendar Gregorian", package: "swift-calendar-gregorian", condition: .when(traits: ["Calendar"])), .target(name: "Version"),
+                .product(name: "Byte", package: "swift-byte", condition: .when(traits: ["Parser"])), .product(name: "Parser", package: "swift-parser", condition: .when(traits: ["Parser"])),
+                .product(name: "ASCII", package: "swift-ascii", condition: .when(traits: ["Parser"])), .product(name: "Checkpoint", package: "swift-checkpoint", condition: .when(traits: ["Parser"])),
+                .product(name: "Cursor", package: "swift-cursor", condition: .when(traits: ["Parser"])), .product(name: "Iterator", package: "swift-iterator", condition: .when(traits: ["Parser"])),
+                .product(name: "Ordinal", package: "swift-ordinal", condition: .when(traits: ["Parser"])), .product(name: "Text", package: "swift-text", condition: .when(traits: ["Parser"])),
+                .product(name: "Serializer", package: "swift-serializer", condition: .when(traits: ["Parser"])),
+            ],
+            path: "Tests/Version Calendar Parser Tests"
+        ),
     ],
     swiftLanguageModes: [.v6]
 )
 
 for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
-    target.swiftSettings = (target.swiftSettings ?? []) + [
-        .strictMemorySafety(),
-        .enableUpcomingFeature("ExistentialAny"),
-        .enableUpcomingFeature("InternalImportsByDefault"),
-        .enableUpcomingFeature("MemberImportVisibility"),
-        .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
-        .enableUpcomingFeature("InferIsolatedConformances"),
-        .enableExperimentalFeature("Lifetimes"),
-        .treatAllWarnings(as: .error),
-    ]
+    target.swiftSettings =
+        (target.swiftSettings ?? []) + [
+            .strictMemorySafety(),
+            .enableUpcomingFeature("ExistentialAny"),
+            .enableUpcomingFeature("InternalImportsByDefault"),
+            .enableUpcomingFeature("MemberImportVisibility"),
+            .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+            .enableUpcomingFeature("InferIsolatedConformances"),
+            .enableExperimentalFeature("Lifetimes"),
+            .treatAllWarnings(as: .error),
+        ]
 }

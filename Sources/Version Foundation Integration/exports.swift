@@ -1,2 +1,2 @@
-@_exported public import Version
 import Foundation
+@_exported public import Version

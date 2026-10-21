@@ -2,8 +2,7 @@ public import Tagged
 
 extension Version {
 
-    public struct Semantic: Swift::Sendable, Swift::Hashable, Swift::Comparable, Swift::CustomStringConvertible
-    {
+    public struct Semantic: Swift::Sendable, Swift::Hashable, Swift::Comparable, Swift::CustomStringConvertible {
 
         public let major: Major.Value
 
@@ -36,12 +35,14 @@ extension Version.Semantic {
     public var description: Swift::String {
         var value = "\(major.underlying).\(minor.underlying).\(patch.underlying)"
         if !preReleaseIdentifiers.isEmpty {
-            value += "-" + preReleaseIdentifiers.map { identifier in
-                switch identifier {
-                case .numeric(let number): return Swift::String(number)
-                case .alphanumeric(let text): return text
-                }
-            }.joined(separator: ".")
+            value +=
+                "-"
+                + preReleaseIdentifiers.map { identifier in
+                    switch identifier {
+                    case .numeric(let number): return Swift::String(number)
+                    case .alphanumeric(let text): return text
+                    }
+                }.joined(separator: ".")
         }
         if !buildMetadataIdentifiers.isEmpty {
             value += "+" + buildMetadataIdentifiers.joined(separator: ".")

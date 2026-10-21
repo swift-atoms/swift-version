@@ -2,8 +2,7 @@ public import Tagged
 
 extension Version {
 
-    public struct Tools: Swift::Sendable, Swift::Hashable, Swift::Comparable, Swift::CustomStringConvertible
-    {
+    public struct Tools: Swift::Sendable, Swift::Hashable, Swift::Comparable, Swift::CustomStringConvertible {
 
         public let major: Major.Value
 

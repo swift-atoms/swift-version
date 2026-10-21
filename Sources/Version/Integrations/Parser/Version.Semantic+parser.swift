@@ -1,12 +1,11 @@
 #if Parser
 
-import Byte
-import Parser
+    import Byte
+    import Parser
 
-extension Version.Semantic {
+    extension Version.Semantic {
 
-
-    @inlinable
-    public static var parser: Version.Semantic.Parser { Version.Semantic.Parser() }
-}
+        @inlinable
+        public static var parser: Version.Semantic.Parser { Version.Semantic.Parser() }
+    }
 #endif
