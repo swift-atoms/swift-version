@@ -92,4 +92,13 @@ import Version
         #expect(members.count == 2)
         #expect(combined.contains(v))
     }
+
+    @Test
+    func `Intersection with any normalizes the other side`() {
+        let v = Version.Semantic(major: 1, minor: 0, patch: 0)
+        let unnormalized: Version.Set<Version.Semantic> = .union([.empty, .exact(v)])
+        let any: Version.Set<Version.Semantic> = .any
+        #expect(any.intersection(unnormalized) == .exact(v))
+        #expect(unnormalized.intersection(.any) == .exact(v))
+    }
 }

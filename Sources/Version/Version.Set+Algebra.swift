@@ -67,7 +67,7 @@ extension Version.Set {
             return .empty
 
         case (.any, let value), (let value, .any):
-            return value
+            return value.normalized()
 
         case (.exact(let lhs), .exact(let rhs)):
             return lhs == rhs ? .exact(lhs) : .empty
