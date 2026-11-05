@@ -15,4 +15,38 @@ import Version
         let rhs = Version.Tools(major: 6, minor: 4, patch: 1)
         #expect(lhs < rhs)
     }
+
+    @Test
+    func `Omitted patch sorts before explicit zero patch`() {
+        let short = Version.Tools(major: 6, minor: 4)
+        let full = Version.Tools(major: 6, minor: 4, patch: 0)
+        #expect(short != full)
+        #expect(short < full)
+        #expect(!(full < short))
+    }
+
+    @Test
+    func `Ordering agrees with equality`() {
+        let versions = [
+            Version.Tools(major: 6, minor: 4),
+            Version.Tools(major: 6, minor: 4, patch: 0),
+            Version.Tools(major: 6, minor: 4, patch: 1),
+            Version.Tools(major: 6, minor: 3, patch: 2),
+        ]
+        for lhs in versions {
+            for rhs in versions {
+                let tied = !(lhs < rhs) && !(rhs < lhs)
+                #expect(tied == (lhs == rhs))
+            }
+        }
+    }
+
+    @Test
+    func `Omitted patch still sorts after a lower patch`() {
+        let short = Version.Tools(major: 6, minor: 4)
+        let lower = Version.Tools(major: 6, minor: 3, patch: 9)
+        let higher = Version.Tools(major: 6, minor: 4, patch: 1)
+        #expect(lower < short)
+        #expect(short < higher)
+    }
 }
