@@ -8,7 +8,7 @@ Use this package to compare, constrain, bump, parse or print version numbers. St
 - `Version.Semantic.phase` is `.initial` exactly when major is 0, whatever the pre-release identifiers say.
 - `Version.Semantic.bumped` increments one component, sets the components below it to 0, and drops all pre-release and build metadata identifiers.
 - `Version.Range.upToNextMajor(from:)` and `Version.Range.upToNextMinor(from:)` include their start and exclude the next major or minor release. The next release has no pre-release identifiers.
-- `Version.Tools` keeps an omitted patch distinct from an explicit 0 when printed: `6.4` stays `6.4`.
+- `Version.Tools` keeps an omitted patch distinct from an explicit 0 when printed: `6.4` stays `6.4`. Ordering treats a missing patch as 0, and on a tie the form without a patch sorts first, so `6.4` < `6.4.0`. This ordering agrees with equality.
 - `Version.Calendar` ordering compares year, then month, then micro, treating a missing component as 0. On a tie, the less precise form sorts first: year only, then year and month, then all three, so `2026.05` < `2026.05.0`. On a further tie, a version with a modifier sorts before one without, and modifiers compare lexically. This ordering agrees with equality.
 - `Version.Calendar.description` pads month and micro to two digits, so `2026.5` prints as `2026.05`.
 - `Version.Calendar(parsing:)` rejects non-ASCII input and anything after the version. It rejects a month outside 1 to 12, a year or month that does not fit `Swift.Int`, and a micro that does not fit `Swift.UInt`. A modifier follows `-`, must be non-empty, and may contain only ASCII letters, digits and `-`. Leading zeros are accepted. `Version.Calendar.Parser` itself does not reject trailing input.
