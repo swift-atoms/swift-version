@@ -1,7 +1,9 @@
 import Testing
 import Version
 
-extension Version.Semantic.Bumped {
+enum `Version.Semantic.Bumped Tests` {}
+
+extension `Version.Semantic.Bumped Tests` {
     @Suite struct `Semantic version bumps update components and discard prerelease metadata` {
         @Test
         func `Major bump zeros minor and patch`() {

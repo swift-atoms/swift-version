@@ -1,7 +1,9 @@
 import Testing
 import Version
 
-extension Version.Semantic.Phase {
+enum `Version.Semantic.Phase Tests` {}
+
+extension `Version.Semantic.Phase Tests` {
     @Suite struct `Semantic version phases follow the major component` {
         @Test
         func `Zero major is initial`() {

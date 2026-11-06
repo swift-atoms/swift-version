@@ -1,11 +1,13 @@
 import Testing
 import Version
 
-extension Version.Tools {
+enum `Version.Tools Tests` {}
+
+extension `Version.Tools Tests` {
     @Suite struct `Tools version components preserve values through distinct tags` {}
 }
 
-extension Version.Tools.`Tools version components preserve values through distinct tags` {
+extension `Version.Tools Tests`.`Tools version components preserve values through distinct tags` {
     @Suite struct `Tagged tools components preserve literal values optional patches and distinct types` {
         @Test
         func `Integer literal flows through to tagged component`() {
