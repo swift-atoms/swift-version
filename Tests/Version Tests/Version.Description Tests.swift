@@ -1,36 +1,47 @@
 import Testing
 import Version
 
-@Suite struct `Version range bounds describe their inclusion and stored values` {
-    @Test
-    func `Unbounded prints as 'unbounded'`() {
-        let bound: Version.Range<Version.Semantic>.Bound = .unbounded
-        #expect(bound.description == "unbounded")
-    }
+enum `Version.Description Tests` {}
 
-    @Test
-    func `Inclusive prints wrapping value`() {
-        let v = Version.Semantic(major: 1, minor: 0, patch: 0)
-        let bound: Version.Range<Version.Semantic>.Bound = .inclusive(v)
-        #expect(bound.description == "inclusive(1.0.0)")
-    }
+extension `Version.Description Tests` {
+    @Suite struct `Version range bounds describe their inclusion and stored values` {
+        @Test
+        func `Unbounded prints as 'unbounded'`() {
+            let bound: Version.Range<Version.Semantic>.Bound = .unbounded
+            #expect(bound.description == "unbounded")
+        }
 
-    @Test
-    func `Exclusive prints wrapping value`() {
-        let v = Version.Semantic(major: 2, minor: 0, patch: 0)
-        let bound: Version.Range<Version.Semantic>.Bound = .exclusive(v)
-        #expect(bound.description == "exclusive(2.0.0)")
+        @Test
+        func `Inclusive prints wrapping value`() {
+            let v = Version.Semantic(major: 1, minor: 0, patch: 0)
+            let bound: Version.Range<Version.Semantic>.Bound = .inclusive(v)
+            #expect(bound.description == "inclusive(1.0.0)")
+        }
+
+        @Test
+        func `Exclusive prints wrapping value`() {
+            let v = Version.Semantic(major: 2, minor: 0, patch: 0)
+            let bound: Version.Range<Version.Semantic>.Bound = .exclusive(v)
+            #expect(bound.description == "exclusive(2.0.0)")
+        }
     }
 }
 
-@Suite
-struct `Version ranges sets and phases preserve their textual representations` {
+extension `Version.Description Tests` {
+    @Suite
+    struct `Version ranges sets and phases preserve their textual representations` {
+    }
+}
+
+extension `Version.Description Tests`.`Version ranges sets and phases preserve their textual representations` {
     @Suite struct `Version range descriptions preserve interval bounds` {}
+
     @Suite struct `Version set descriptions preserve member notation and debug structure` {}
+
     @Suite struct `Version phases expose their names in descriptions and debug output` {}
 }
 
-extension `Version ranges sets and phases preserve their textual representations`.`Version range descriptions preserve interval bounds` {
+extension `Version.Description Tests`.`Version ranges sets and phases preserve their textual representations`.`Version range descriptions preserve interval bounds` {
     @Test
     func `Unbounded range prints interval notation`() {
         let range: Version.Range<Version.Semantic> = .all
@@ -77,7 +88,7 @@ extension `Version ranges sets and phases preserve their textual representations
     }
 }
 
-extension `Version ranges sets and phases preserve their textual representations`.`Version set descriptions preserve member notation and debug structure` {
+extension `Version.Description Tests`.`Version ranges sets and phases preserve their textual representations`.`Version set descriptions preserve member notation and debug structure` {
     @Test
     func `Empty prints as set-theoretic empty symbol`() {
         let set: Version.Set<Version.Semantic> = .empty
@@ -135,7 +146,7 @@ extension `Version ranges sets and phases preserve their textual representations
     }
 }
 
-extension `Version ranges sets and phases preserve their textual representations`.`Version phases expose their names in descriptions and debug output` {
+extension `Version.Description Tests`.`Version ranges sets and phases preserve their textual representations`.`Version phases expose their names in descriptions and debug output` {
     @Test
     func `Initial prints simple name`() {
         #expect(Version.Semantic.Phase.initial.description == "initial")

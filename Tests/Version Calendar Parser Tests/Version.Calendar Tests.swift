@@ -6,11 +6,17 @@
 
     extension Version.Calendar {
         @Suite struct `Calendar version` {
-            @Suite struct `Construction` {}
-            @Suite struct `Comparison` {}
-            @Suite struct `Round trip` {}
-            @Suite struct `Error cases` {}
         }
+    }
+
+    extension Version.Calendar.`Calendar version` {
+        @Suite struct `Construction` {}
+
+        @Suite struct `Comparison` {}
+
+        @Suite struct `Round trip` {}
+
+        @Suite struct `Error cases` {}
     }
 
     extension Version.Calendar.`Calendar version`.`Construction` {
