@@ -45,15 +45,3 @@ extension Version.Tools {
     }
 
 }
-
-#if Parser
-
-    import Byte
-    import Parser
-
-    extension Version.Tools {
-
-        @inlinable
-        public static var parser: Version.Tools.Parser { Version.Tools.Parser() }
-    }
-#endif
