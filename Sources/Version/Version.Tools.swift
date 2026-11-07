@@ -41,8 +41,6 @@ extension Version.Tools {
         let lp = lhs.patch?.underlying ?? 0
         let rp = rhs.patch?.underlying ?? 0
         if lp != rp { return lp < rp }
-        // On a tie, the less precise form sorts first, so `6.4` < `6.4.0`.
-        // This keeps ordering consistent with the synthesized `==`.
         return lhs.patch == nil && rhs.patch != nil
     }
 
