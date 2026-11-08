@@ -4,9 +4,9 @@
     import Serializer
     import Testing
 
-enum `Version.Serializer Tests` {}
+    enum `Version.Serializer Tests` {}
 
-extension `Version.Serializer Tests` {
+    extension `Version.Serializer Tests` {
         @Suite struct `Version Serializer Tests` {
             @Test
             func `Semantic serializer emits canonical bytes`() {
@@ -30,7 +30,7 @@ extension `Version.Serializer Tests` {
                 #expect(Swift::String(decoding: bytes.map(\.bitPattern), as: Swift::UTF8.self) == "6.4")
             }
         }
-}
+    }
 
     extension `Version.Serializer Tests`.`Version Serializer Tests` {
         @Test func `calendar serializer appends canonical UTF 8 without replacing prefix`() throws {

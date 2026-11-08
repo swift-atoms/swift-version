@@ -5,9 +5,9 @@
     import Tagged
     import Testing
 
-enum `Version.Tools.Parser Tests` {}
+    enum `Version.Tools.Parser Tests` {}
 
-extension `Version.Tools.Parser Tests` {
+    extension `Version.Tools.Parser Tests` {
         @Suite struct `Version.Tools Parser Tests` {
 
             @Test
@@ -40,5 +40,5 @@ extension `Version.Tools.Parser Tests` {
                 #expect(version.minor.underlying == 4)
             }
         }
-}
+    }
 #endif
