@@ -1,4 +1,4 @@
 #if Calendar
-    @_exported public import Calendar_Gregorian
-    @_exported public import Tagged
+    public import Calendar_Gregorian
+    public import Tagged
 #endif
