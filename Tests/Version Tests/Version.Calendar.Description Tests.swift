@@ -46,7 +46,7 @@
     }
 
     extension VersionCalendarDescriptionTests {
-        @Test func debugEscapesQuotedAndMultilineModifiers() {
+        @Test func `debug escapes quoted and multiline modifiers`() {
             let version = Version.Calendar.yearOnly(year: 2026, modifier: "a\"b\nc")
             #expect(version.debugDescription == ".yearOnly(year: 2026, modifier: \"a\\\"b\\nc\")")
         }

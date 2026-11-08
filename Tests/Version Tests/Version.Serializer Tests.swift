@@ -33,7 +33,7 @@ extension `Version.Serializer Tests` {
 }
 
     extension `Version.Serializer Tests`.`Version Serializer Tests` {
-        @Test func calendarSerializerAppendsCanonicalUTF8WithoutReplacingPrefix() throws {
+        @Test func `calendar serializer appends canonical UTF 8 without replacing prefix`() throws {
             let value = Version.Calendar.full(
                 year: -1,
                 month: try Gregorian.Month(9),
@@ -47,7 +47,7 @@ extension `Version.Serializer Tests` {
             #expect(bytes.map(\.bitPattern) == Array("|-1.09.\(UInt.max)-rélease2026".utf8))
         }
 
-        @Test func toolsSerializerDistinguishesOmittedAndExplicitZeroPatch() {
+        @Test func `tools serializer distinguishes omitted and explicit zero patch`() {
             var bytes: [Byte] = []
             Version.Tools.Serializer().serialize(.init(major: 6, minor: 4, patch: 0), into: &bytes)
             #expect(bytes.map(\.bitPattern) == Array("6.4.0".utf8))

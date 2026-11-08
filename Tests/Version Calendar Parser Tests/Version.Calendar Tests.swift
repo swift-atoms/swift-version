@@ -155,18 +155,18 @@
             "\(UInt.max)", "\(UInt(Int.max) + 1)", "2026.\(UInt.max)",
             "2026.09.\(UInt.max)0",
         ])
-        func numericFieldsRejectOverflowWithoutTrapping(_ input: String) {
+        func `numeric fields reject overflow without trapping`(_ input: String) {
             #expect(throws: Version.Calendar.Error.self) { try Version.Calendar(parsing: input) }
         }
 
         @Test(arguments: ["-1", "2026.09-rélease", "2026.09-"])
-        func restrictedGrammarRejectsValuesOutsideItsWireDomain(_ input: String) {
+        func `restricted grammar rejects values outside its wire domain`(_ input: String) {
             #expect(throws: Version.Calendar.Error.self) { try Version.Calendar(parsing: input) }
         }
     }
 
     extension Version.Calendar.`Calendar version`.`Construction` {
-        @Test func numericBoundariesKeepTheOwnersFullSupportedRanges() throws {
+        @Test func `numeric boundaries keep the owners full supported ranges`() throws {
             let input = "\(Int.max).09.\(UInt.max)"
             let value = try Version.Calendar(parsing: input)
             guard case .full(let year, let month, let micro, _) = value else {

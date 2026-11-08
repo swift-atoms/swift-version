@@ -60,7 +60,7 @@
     }
 
     extension `Version.Semantic.Parser Tests` {
-        @Test func nonzeroSliceStartPreservesMaximumComponentsAndRemainder() throws {
+        @Test func `nonzero slice start preserves maximum components and remainder`() throws {
             let storage = [Byte](utf8: "xx\(UInt.max).2.3 tail")
             var input = storage.dropFirst(2)
             let value = try Version.Semantic.Parser().parse(&input)
@@ -68,7 +68,7 @@
             #expect(input.map(\.bitPattern) == Array(" tail".utf8))
         }
 
-        @Test func numericOverflowReportsTheWholeDigitRun() {
+        @Test func `numeric overflow reports the whole digit run`() {
             let digits = "\(UInt.max)0"
             var input = [Byte](utf8: digits + ".2.3")[...]
             do {

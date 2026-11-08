@@ -35,7 +35,7 @@
     }
 
     extension `Version.Calendar Tests` {
-        @Test func fullUnsignedMicroRangeSupportsFormattingAndOrdering() throws {
+        @Test func `full unsigned micro range supports formatting and ordering`() throws {
             let month = try Gregorian.Month(9)
             let maximum = Version.Calendar.full(year: 2026, month: month, micro: .init(UInt.max))
             let previous = Version.Calendar.full(year: 2026, month: month, micro: .init(UInt.max - 1))
@@ -44,7 +44,7 @@
             #expect(maximum.debugDescription == ".full(year: 2026, month: 9, micro: \(UInt.max), modifier: nil)")
         }
 
-        @Test func orderingDistinguishesPrecisionAndAgreesWithEquality() throws {
+        @Test func `ordering distinguishes precision and agrees with equality`() throws {
             let month = try Gregorian.Month(9)
             let values: [Version.Calendar] = [
                 .yearOnly(year: -1), .yearOnly(year: 2026),
