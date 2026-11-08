@@ -1,4 +1,4 @@
 #if Calendar
-    public import Calendar_Gregorian
-    public import Tagged
+    import Calendar_Gregorian
+    import Tagged
 #endif
