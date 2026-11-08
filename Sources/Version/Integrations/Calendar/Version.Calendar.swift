@@ -77,7 +77,6 @@
 #endif
 
 #if Calendar
-    internal import Calendar_Gregorian
 
     extension Version.Calendar: Swift::CustomDebugStringConvertible {
 
@@ -117,8 +116,6 @@
 
 #if Parser && Calendar
 
-    internal import Byte
-    internal import Cursor
     public import Ordinal
     internal import Parser
     public import Text
