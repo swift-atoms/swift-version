@@ -47,6 +47,29 @@ extension `Version.Semantic.Bumped Tests` {
             #expect(bumped.description == "1.2.4")
         }
 
+        #if os(macOS) || os(Linux) || os(Windows)
+            @Test
+            func `Bumping a component at UInt.max traps`() async {
+                await #expect(processExitsWith: .failure) {
+                    _ = Version.Semantic(major: .init(.max), minor: 0, patch: 0).bumped.major
+                }
+                await #expect(processExitsWith: .failure) {
+                    _ = Version.Semantic(major: 0, minor: .init(.max), patch: 0).bumped.minor
+                }
+                await #expect(processExitsWith: .failure) {
+                    _ = Version.Semantic(major: 0, minor: 0, patch: .init(.max)).bumped.patch
+                }
+            }
+        #endif
+
+        @Test
+        func `Bumping below UInt.max succeeds`() {
+            let v = Version.Semantic(major: .init(.max - 1), minor: .init(.max - 1), patch: .init(.max - 1))
+            #expect(v.bumped.patch.patch.underlying == .max)
+            #expect(v.bumped.minor.minor.underlying == .max)
+            #expect(v.bumped.major.major.underlying == .max)
+        }
+
         @Test
         func `Bumping is total ordering: bumped > self`() {
             let v = Version.Semantic(major: 1, minor: 2, patch: 3)
