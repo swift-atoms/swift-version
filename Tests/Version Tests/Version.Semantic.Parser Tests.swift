@@ -68,6 +68,26 @@
             #expect(input.map(\.bitPattern) == Array(" tail".utf8))
         }
 
+        @Test func `pre-release scan stops where the SemVer bytes end`() throws {
+            var input = [Byte](utf8: "1.0.0-rc tail")[...]
+            let value = try Version.Semantic.Parser().parse(&input)
+            #expect(value.preReleaseIdentifiers == [.alphanumeric("rc")])
+            #expect(input.map(\.bitPattern) == Array(" tail".utf8))
+        }
+
+        @Test func `build metadata scan stops where the SemVer bytes end`() throws {
+            var input = [Byte](utf8: "1.0.0-rc.1+sha.abc tail")[...]
+            let value = try Version.Semantic.Parser().parse(&input)
+            #expect(value.preReleaseIdentifiers == [.alphanumeric("rc"), .numeric(1)])
+            #expect(value.buildMetadataIdentifiers == ["sha", "abc"])
+            #expect(input.map(\.bitPattern) == Array(" tail".utf8))
+        }
+
+        @Test func `full-text parsing still rejects trailing input after a pre-release`() {
+            #expect(Version.Semantic(parsing: "1.0.0-rc tail") == nil)
+            #expect(Version.Semantic(parsing: "1.0.0-r@c") == nil)
+        }
+
         @Test func `numeric overflow reports the whole digit run`() {
             let digits = "\(UInt.max)0"
             var input = [Byte](utf8: digits + ".2.3")[...]

@@ -33,15 +33,24 @@
             }
 
             @Test
-            func `Invalid prerelease bytes report their byte range`() {
-                var input = [Byte](utf8: "1.0.0-alpha!")[...]
+            func `Overflowing numeric prerelease reports its byte range`() {
+                let digits = "\(UInt.max)0"
+                var input = [Byte](utf8: "1.0.0-" + digits)[...]
                 do {
                     _ = try Version.Semantic.Parser().parse(&input)
                     Issue.record("expected throw")
                 } catch let error {
                     #expect(error.range.start.underlying.rawValue == 6)
-                    #expect(error.range.end.underlying.rawValue == 12)
+                    #expect(error.range.end.underlying.rawValue == UInt(6 + digits.utf8.count))
                 }
+            }
+
+            @Test
+            func `A non-SemVer byte ends the prerelease and is left unconsumed`() throws {
+                var input = [Byte](utf8: "1.0.0-alpha!")[...]
+                let value = try Version.Semantic.Parser().parse(&input)
+                #expect(value.preReleaseIdentifiers == [.alphanumeric("alpha")])
+                #expect(input.map(\.bitPattern) == Array("!".utf8))
             }
 
             @Test

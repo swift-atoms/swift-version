@@ -225,11 +225,11 @@
             return identifiers
         }
 
+        /// The identifier at the front of `input`: it ends at the next `.` or `+`, or where the
+        /// SemVer bytes end, so trailing input is left unconsumed as it is after the core.
         static func takeIdentifier(from input: ArraySlice<Byte>) -> (Swift::String, Swift::Int) {
             var count = 0
-            while count < input.count {
-                let byte = input[input.startIndex + count].bitPattern
-                if byte == 0x2E || byte == 0x2B { break }
+            while count < input.count, Self.isIdentifierByte(input[input.startIndex + count]) {
                 count += 1
             }
             return (Self.string(from: input, count: count), count)
