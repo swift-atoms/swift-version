@@ -248,10 +248,14 @@
         }
 
         static func range(from start: Swift::Int, to end: Swift::Int) -> Text.Range {
-            Text.Range(
-                start: Text.Position(_unchecked: Ordinal(Swift::UInt(start))),
-                end: Text.Position(_unchecked: Ordinal(Swift::UInt(end)))
-            )
+            do throws(Text.Range.Error) {
+                return try Text.Range(
+                    start: Text.Position(_unchecked: Ordinal(Swift::UInt(start))),
+                    end: Text.Position(_unchecked: Ordinal(Swift::UInt(end)))
+                )
+            } catch {
+                preconditionFailure("error range end precedes its start: \(error)")
+            }
         }
 
         static func isSemVerByte(_ byte: Byte) -> Swift::Bool {

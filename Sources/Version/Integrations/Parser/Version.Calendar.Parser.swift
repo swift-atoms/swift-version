@@ -172,7 +172,7 @@
         }
 
         static func range(from start: Swift::UInt, to end: Swift::UInt) -> Text.Range {
-            Text.Range(start: Version.Calendar.position(start), end: Version.Calendar.position(end))
+            Version.Calendar.range(from: start, to: end)
         }
     }
 #endif

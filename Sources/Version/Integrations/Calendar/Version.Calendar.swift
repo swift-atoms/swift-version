@@ -125,10 +125,9 @@
         public init(parsing calverString: Swift::String) throws(Version.Calendar.Error) {
             let totalBytes = Swift::UInt(calverString.utf8.count)
             for (offset, byte) in calverString.utf8.enumerated() where byte >= 0x80 {
-                let position = Self.position(Swift::UInt(offset))
                 throw .nonASCIICharacters(
                     input: calverString,
-                    range: Text.Range(start: position, end: Self.position(Swift::UInt(offset) + 1))
+                    range: Self.range(from: Swift::UInt(offset), to: Swift::UInt(offset) + 1)
                 )
             }
             var input = [Byte](utf8: calverString)[...]
@@ -140,10 +139,7 @@
                 throw .invalidCalendarIdentifier(
                     input: calverString,
                     identifier: trailing,
-                    range: Text.Range(
-                        start: Self.position(consumed),
-                        end: Self.position(totalBytes)
-                    )
+                    range: Self.range(from: consumed, to: totalBytes)
                 )
             }
         }
@@ -151,6 +147,15 @@
         @inlinable
         package static func position(_ offset: Swift::UInt) -> Text.Position {
             Text.Position(_unchecked: Ordinal(offset))
+        }
+
+        /// The range from `start` to `end`; callers pass `start <= end`.
+        package static func range(from start: Swift::UInt, to end: Swift::UInt) -> Text.Range {
+            do throws(Text.Range.Error) {
+                return try Text.Range(start: Self.position(start), end: Self.position(end))
+            } catch {
+                preconditionFailure("error range end precedes its start: \(error)")
+            }
         }
     }
 #endif
